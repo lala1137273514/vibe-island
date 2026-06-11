@@ -493,7 +493,7 @@ git commit -m "feat: achievements with tests"
 **Files:**
 - Create: `src/state/storage.ts`, `src/state/useGameState.ts`, `src/state/useGameState.test.tsx`
 
-- [ ] **Step 1: 写 storage(无副作用包装,直接落地)**
+- [x] **Step 1: 写 storage(无副作用包装,直接落地)**
 
 `src/state/storage.ts`:
 ```ts
@@ -507,7 +507,7 @@ export function persist(s: SaveState) { try { localStorage.setItem(KEY, JSON.str
 export function clearSave() { try { localStorage.removeItem(KEY) } catch {} }
 ```
 
-- [ ] **Step 2: 写 hook 失败测试**
+- [x] **Step 2: 写 hook 失败测试**
 
 `src/state/useGameState.test.tsx`:
 ```tsx
@@ -533,9 +533,9 @@ it('完成后自动结算新成就', () => {
 })
 ```
 
-- [ ] **Step 3: 跑测试确认失败** → `pnpm test` → FAIL(依赖 Task 6 的 `ORIGIN_ISLAND`;若 Task 6 未做,先用 Task 3 测试里的临时 island 桩,完成 Task 6 后切回)。
+- [x] **Step 3: 跑测试确认失败** → `pnpm test` → FAIL(依赖 Task 6 的 `ORIGIN_ISLAND`;若 Task 6 未做,先用 Task 3 测试里的临时 island 桩,完成 Task 6 后切回)。
 
-- [ ] **Step 4: 实现 hook**
+- [x] **Step 4: 实现 hook**
 
 `src/state/useGameState.ts`:
 ```ts
@@ -564,9 +564,9 @@ export function useGameState(island: IslandDef) {
 }
 ```
 
-- [ ] **Step 5: 跑测试确认通过** → `pnpm test` → PASS。
+- [x] **Step 5: 跑测试确认通过** → `pnpm test` → PASS。
 
-- [ ] **Step 6: 提交**
+- [x] **Step 6: 提交**
 ```bash
 git add src/state/storage.ts src/state/useGameState.ts src/state/useGameState.test.tsx
 git commit -m "feat: persistence + useGameState hook with tests"
