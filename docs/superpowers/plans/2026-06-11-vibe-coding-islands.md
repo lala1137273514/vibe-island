@@ -739,14 +739,14 @@ git commit -m "feat: asset fetch script with CSS fallback + component styles"
 
 **约定:** 每个任务组件 props `{ task; onResult: (correct: boolean) => void }`。组件内部收集作答 → 组装对应 `TaskAnswer` → 调 `scoreTask`(复用 Task 3 纯函数,不另写判分)→ `onResult(correct)`。`TaskRenderer` 按 `task.type` 分发;并跟踪「首次尝试是否就对」以决定 star,向上回调 `onPass(star)`。
 
-- [ ] **Step 1: 写组件冒烟测试** `tasks.test.tsx`:
+- [x] **Step 1: 写组件冒烟测试** `tasks.test.tsx`:
   - QuizTask:点正确项后 `onResult(true)`;错项 `onResult(false)`。
   - FillPromptTask:输入命中 accept → `onResult(true)`。
-  (用 @testing-library/user-event 模拟点击/输入。)
-- [ ] **Step 2: 跑确认失败** → `pnpm test` → FAIL。
-- [ ] **Step 3: 实现 4 组件 + TaskRenderer**(判分一律调 `scoreTask`)。
-- [ ] **Step 4: 跑确认通过** → `pnpm test` → PASS。
-- [ ] **Step 5: 提交** `git commit -m "feat: 4 task widgets + renderer"`。
+  (用 @testing-library/user-event 模拟点击/输入。实际还加测了 TrueFalse/Match/TaskRenderer star 逻辑。)
+- [x] **Step 2: 跑确认失败** → `pnpm test` → FAIL。
+- [x] **Step 3: 实现 4 组件 + TaskRenderer**(判分一律调 `scoreTask`)。
+- [x] **Step 4: 跑确认通过** → `pnpm test` → PASS。
+- [x] **Step 5: 提交** `git commit -m "feat: 4 task widgets + renderer"`。
 
 ---
 

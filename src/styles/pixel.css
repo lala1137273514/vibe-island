@@ -114,6 +114,15 @@ img,canvas{image-rendering:pixelated;}
 .fill-input{font-family:inherit;font-size:12px;border:3px solid var(--c-ink);padding:6px;margin:4px;}
 .feedback-ok{color:var(--c-grass-dark);font-weight:bold;}
 .feedback-bad{color:#c0392b;font-weight:bold;}
+.task-question{font-weight:bold;}
+.tf-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:8px 0;}
+.tf-btns{display:flex;gap:6px;flex-shrink:0;}
+.tf-btn{font-size:11px;padding:4px 10px;background:var(--c-cream);}
+.tf-btn.picked{background:var(--c-gold);}
+.match-row{display:flex;align-items:center;gap:12px;margin:8px 0;}
+.match-left{min-width:120px;font-weight:bold;}
+.fill-template{background:rgba(0,0,0,.05);border:2px dashed var(--c-wood);padding:10px;}
+.fill-hints{font-size:12px;color:#8a7a5a;}
 
 /* ====== 通关烟花(纯 CSS) ====== */
 .firework{position:fixed;width:6px;height:6px;z-index:40;animation:explode 1.2s ease-out forwards;}
