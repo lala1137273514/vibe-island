@@ -102,7 +102,13 @@ img,canvas{image-rendering:pixelated;}
 .panel-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;}
 
 /* ====== 成就墙 ====== */
+.shelf-panel{width:min(640px,94vw);max-height:86vh;overflow:auto;}
+.shelf-title{font-size:14px;margin:0 0 12px;}
 .shelf{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.trophy-icon{font-size:22px;}
+.trophy-name{margin:6px 0;}
+.trophy-desc{font-size:10px;color:#555;}
+.hud-btn{font-size:10px;padding:4px 8px;}
 .trophy{border:3px solid var(--c-ink);padding:10px;text-align:center;font-size:11px;background:var(--c-gold);}
 .trophy.locked{background:#9a9a8e;color:#555;filter:grayscale(1);}
 

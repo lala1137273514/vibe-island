@@ -756,9 +756,9 @@ git commit -m "feat: asset fetch script with CSS fallback + component styles"
 
 **HUD:** 常驻顶栏,显示金币、星星、起源岛进度(done 主线数/6)。**AchievementShelf:** 遍历 `ACHIEVEMENTS`,已解锁(在 `save.achievements`)亮+名称,未解锁灰+「???」,点开看 desc。可由 HUD 上一个奖杯按钮开关。
 
-- [ ] **Step 1:** 实现两组件。Props 接 `save: SaveState`。
-- [ ] **Step 2: 冒烟测试** `AchievementShelf.test.tsx`:给含 `achievements:['starter']` 的 save,「启程者」亮、其余灰。`pnpm test` → PASS。
-- [ ] **Step 3: 提交** `git commit -m "feat: HUD + achievement shelf"`。
+- [x] **Step 1:** 实现两组件。Props 接 `save: SaveState`。
+- [x] **Step 2: 冒烟测试** `AchievementShelf.test.tsx`:给含 `achievements:['starter']` 的 save,「启程者」亮、其余灰。`pnpm test` → PASS。
+- [x] **Step 3: 提交** `git commit -m "feat: HUD + achievement shelf"`。
 
 ---
 
