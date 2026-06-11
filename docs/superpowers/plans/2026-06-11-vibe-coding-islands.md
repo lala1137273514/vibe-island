@@ -689,9 +689,9 @@ git commit -m "feat: asset fetch script with CSS fallback + component styles"
 { islands: IslandDef[]; unlockedIslands: string[];
   onEnter: (islandId: string) => void; coins: number }
 ```
-- [ ] **Step 1:** 实现组件:海域横向排布;每岛一个像素卡片;`unlockedIslands.includes(id)` 决定可点/云雾。起源岛高亮「可玩」。顶部放 `HUD`(Task 12 完成前先内联金币显示)。
-- [ ] **Step 2: 冒烟测试** `src/components/WorldMap.test.tsx`:渲染后能看到「起源岛」,点击触发 `onEnter('origin')`;锁定岛点击不触发 onEnter。Run `pnpm test` → PASS。
-- [ ] **Step 3: 提交** `git commit -m "feat: world map"`。
+- [x] **Step 1:** 实现组件:海域横向排布;每岛一个像素卡片;`unlockedIslands.includes(id)` 决定可点/云雾。起源岛高亮「可玩」。顶部放 `HUD`(Task 12 完成前先内联金币显示)。
+- [x] **Step 2: 冒烟测试** `src/components/WorldMap.test.tsx`:渲染后能看到「起源岛」,点击触发 `onEnter('origin')`;锁定岛点击不触发 onEnter。Run `pnpm test` → PASS。
+- [x] **Step 3: 提交** `git commit -m "feat: world map"`。
 
 ---
 

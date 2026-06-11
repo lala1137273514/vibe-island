@@ -25,6 +25,19 @@ img,canvas{image-rendering:pixelated;}
   repeating-linear-gradient(90deg,transparent 0 15px,rgba(0,0,0,.05) 15px 16px),
   linear-gradient(180deg,var(--c-grass) 0%,var(--c-grass-dark) 100%);}
 
+/* ====== 大地图布局 ====== */
+.world-map{display:flex;flex-direction:column;align-items:center;padding:48px 16px;}
+.map-title{color:var(--c-cream);font-size:20px;text-shadow:3px 3px 0 var(--c-ink);margin:8px 0 24px;}
+.map-coins{position:absolute;top:16px;right:20px;color:var(--c-gold);font-size:14px;
+  text-shadow:2px 2px 0 var(--c-ink);}
+.regions{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;}
+.region{text-align:center;}
+.region-name{color:var(--c-cream);font-size:12px;text-shadow:2px 2px 0 var(--c-ink);}
+.island-emoji{font-size:40px;line-height:1.2;}
+.island-name{font-size:12px;margin-top:8px;}
+.playable-badge{margin-top:8px;font-size:10px;color:var(--c-grass-dark);
+  background:var(--c-gold);border:2px solid var(--c-ink);display:inline-block;padding:2px 6px;}
+
 /* ====== 大地图岛屿卡片 ====== */
 .island-card{position:relative;background:var(--c-grass);border:4px solid var(--c-ink);
   box-shadow:0 6px 0 var(--c-grass-dark),6px 6px 0 rgba(0,0,0,.3);
