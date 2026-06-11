@@ -132,8 +132,23 @@ img,canvas{image-rendering:pixelated;}
 .tf-btn.picked{background:var(--c-gold);}
 .match-row{display:flex;align-items:center;gap:12px;margin:8px 0;}
 .match-left{min-width:120px;font-weight:bold;}
-.fill-template{background:rgba(0,0,0,.05);border:2px dashed var(--c-wood);padding:10px;}
+.fill-template{background:rgba(0,0,0,.05);border:2px dashed var(--c-wood);padding:10px;white-space:pre-wrap;}
 .fill-hints{font-size:12px;color:#8a7a5a;}
+/* 急诊室/访谈屋/锻造铺/积木台 */
+.er-bed{display:flex;gap:10px;align-items:center;margin:8px 0;padding:8px;}
+.er-patient{font-size:24px;}
+.dialog-npc{display:flex;gap:10px;align-items:flex-start;margin:8px 0;padding:10px;}
+.npc-face{font-size:28px;}
+.dialog-progress{font-weight:bold;}
+.forge-level{font-size:14px;}
+.forge-why{color:#8a5a3c;}
+.proto-slots{margin:8px 0;}
+.proto-slot{border:3px dashed var(--c-wood);padding:8px;margin:6px 0;min-height:44px;cursor:pointer;
+  background:rgba(255,255,255,.25);}
+.proto-slot-label{font-size:10px;color:#8a7a5a;margin-right:8px;}
+.proto-chip{font-size:11px;margin:2px;background:var(--c-grass);color:#fff;}
+.proto-tray{display:flex;flex-wrap:wrap;gap:6px;}
+.proto-block.picked{background:var(--c-grass);color:#fff;}
 
 /* ====== 通关烟花(纯 CSS) ====== */
 .firework{position:fixed;width:6px;height:6px;z-index:40;animation:explode 1.2s ease-out forwards;}

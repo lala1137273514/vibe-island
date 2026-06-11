@@ -80,13 +80,21 @@ it('完整通关流程覆盖验收标准 ①-⑨', async () => {
   expect(screen.getByText(/全部配对正确/)).toBeInTheDocument()
   await closePanel()
 
-  // 主线 4:fill-prompt(此时 3 星 → 满分学霸)
+  // 主线 4:原型积木台(proto-builder):放对全部必选块(此时 3 星 → 满分学霸)
   await openNode('搭建原型')
   await readCardsAndStartChallenge()
-  await user.type(screen.getByLabelText('空1'), '扩写')
-  await user.type(screen.getByLabelText('空2'), '业务')
-  await user.type(screen.getByLabelText('空3'), '单页面')
-  await user.click(screen.getByRole('button', { name: '提交' }))
+  const place = async (block: RegExp, slot: string) => {
+    await user.click(screen.getByRole('button', { name: block }))
+    await user.click(screen.getByRole('button', { name: slot }))
+  }
+  await place(/标题栏/, '槽-顶栏')
+  await place(/商品信息表单/, '槽-输入区')
+  await place(/图片上传/, '槽-输入区')
+  await place(/批量生成按钮/, '槽-操作区')
+  await place(/图文草稿列表/, '槽-结果区')
+  await place(/模板库/, '槽-侧栏')
+  await user.click(screen.getByRole('button', { name: '检查原型' }))
+  expect(screen.getByText(/原型结构达标/)).toBeInTheDocument()
   await closePanel()
   expect(screen.getByText(/满分学霸/)).toBeInTheDocument()
 

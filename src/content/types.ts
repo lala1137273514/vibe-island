@@ -2,7 +2,7 @@ export type NodeStatus = 'locked' | 'available' | 'done'
 export type Region = 'stage-1' | 'stage-2' | 'stage-3'
 export type TaskType =
   | 'quiz' | 'truefalse' | 'match' | 'fill-prompt'
-  | 'error-er' | 'npc-dialog' | 'prompt-forge'
+  | 'error-er' | 'npc-dialog' | 'prompt-forge' | 'proto-builder'
 
 export interface LearnCard { title: string; body: string }
 
@@ -50,9 +50,19 @@ export interface PromptForgeTask {
   exampleGood: string                  // 过关后展示的参考提示词(取自原文模板)
 }
 
+// ===== 原型积木台 =====
+export interface ProtoBlock { id: string; label: string; emoji: string; distractor?: boolean }
+export interface ProtoSlot { id: string; label: string; accepts: string[] }  // accepts=该槽必须集齐的 block id
+export interface ProtoBuilderTask {
+  type: 'proto-builder'
+  brief: string
+  slots: ProtoSlot[]
+  blocks: ProtoBlock[]
+}
+
 export type NodeTask =
   | QuizTask | TrueFalseTask | MatchTask | FillPromptTask
-  | ErrorErTask | NpcDialogTask | PromptForgeTask
+  | ErrorErTask | NpcDialogTask | PromptForgeTask | ProtoBuilderTask
 
 // 各任务对应的作答数据
 export type TaskAnswer =
@@ -63,6 +73,7 @@ export type TaskAnswer =
   | { type: 'error-er'; picks: number[][] }  // picks[case][step] = 该步首选下标
   | { type: 'npc-dialog'; picks: number[] }  // picks[round] = 选的问题卡下标
   | { type: 'prompt-forge'; picks: number[] } // picks[round] = 选的锻打项下标
+  | { type: 'proto-builder'; placement: Record<string, string[]> } // slotId → 放入的 blockId
 
 export interface GameNode {
   id: string

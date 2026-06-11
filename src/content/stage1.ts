@@ -122,14 +122,26 @@ export const ORIGIN_ISLAND: IslandDef = {
           body: '原型做完不等于能用。让 AI 在界面上加"测试数据入口",一键填充就能从头走一遍用户流程;让 AI 模拟真实生成过程(点击后等一会儿才出结果);最后让 AI 对照最初需求输出功能清单 checklist——哪些完成了、哪些没实现,照着清单补。' },
       ],
       task: {
-        type: 'fill-prompt',
-        template: '(口述大白话起步后,让 AI 整理的提示词)帮我把上面的想法 ___ 一下,整理成一份清晰的 ___ 逻辑文档,然后生成一个适合发给 AI IDE(比如 Cursor、Trae)的提示词,用来生成 ___ 应用的原型代码。',
-        blanks: [
-          { accept: ['扩写', '扩展', '完善'], hint: '你的口述很粗糙,需要 AI 帮你把它"写丰满"(两个字)' },
-          { accept: ['业务'], hint: '不是技术文档,是描述"用户每天实际在做的事"的文档(两个字)' },
-          { accept: ['单页面', '单页'], hint: '先做最小版本验证核心玩法,不要一上来就做多页面' },
+        type: 'proto-builder',
+        brief: '电商运营的两大真痛点:「批量做图做文案太费劲」「好方案存不下来」。拼出最小可用的素材工作台原型——只放核心功能,别堆没人要的!',
+        slots: [
+          { id: 'top', label: '顶栏', accepts: ['title'] },
+          { id: 'input', label: '输入区', accepts: ['product-form', 'image-upload'] },
+          { id: 'action', label: '操作区', accepts: ['batch-generate'] },
+          { id: 'result', label: '结果区', accepts: ['draft-list'] },
+          { id: 'side', label: '侧栏', accepts: ['template-lib'] },
         ],
-        explain: '原文提示词:「帮我把上面的想法扩写一下,整理成一份清晰的业务逻辑文档,然后生成一个适合发给 AI IDE 的提示词,用来生成单页面应用的原型代码。」流程:需求分析→单页验证→多页扩展→美化完善。',
+        blocks: [
+          { id: 'title', label: '标题栏', emoji: '🏷️' },
+          { id: 'product-form', label: '商品信息表单', emoji: '📋' },
+          { id: 'image-upload', label: '图片上传', emoji: '📤' },
+          { id: 'batch-generate', label: '批量生成按钮', emoji: '⚡' },
+          { id: 'draft-list', label: '图文草稿列表', emoji: '🗂️' },
+          { id: 'template-lib', label: '模板库', emoji: '📚' },
+          { id: 'vip-popup', label: '会员充值弹窗', emoji: '💰', distractor: true },
+          { id: '3d-hall', label: '3D 商品展厅', emoji: '🕶️', distractor: true },
+          { id: 'points-mall', label: '积分商城', emoji: '🎯', distractor: true },
+        ],
       },
     },
     {

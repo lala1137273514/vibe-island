@@ -7,6 +7,7 @@ import { FillPromptTask } from './FillPromptTask'
 import { ErrorErTask } from './error-er/ErrorErTask'
 import { NpcDialogTask } from './npc-dialog/NpcDialogTask'
 import { PromptForgeTask } from './prompt-forge/PromptForgeTask'
+import { ProtoBuilderTask } from './proto-builder/ProtoBuilderTask'
 
 // 按 task.type 分发;跟踪「首次尝试是否就对」决定 star
 export function TaskRenderer({ task, onPass }: { task: NodeTask; onPass: (star: boolean) => void }) {
@@ -23,5 +24,6 @@ export function TaskRenderer({ task, onPass }: { task: NodeTask; onPass: (star: 
     case 'error-er': return <ErrorErTask task={task} onResult={handleResult} />
     case 'npc-dialog': return <NpcDialogTask task={task} onResult={handleResult} />
     case 'prompt-forge': return <PromptForgeTask task={task} onResult={handleResult} />
+    case 'proto-builder': return <ProtoBuilderTask task={task} onResult={handleResult} />
   }
 }
