@@ -236,7 +236,7 @@ git add src/content/types.ts && git commit -m "feat: domain types"
 
 纯函数,无 React、无 localStorage。这是全系统的单一真相源。
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 `src/state/gameLogic.test.ts`:
 ```ts
@@ -326,12 +326,12 @@ describe('openTreasure', () => {
 })
 ```
 
-- [ ] **Step 2: 跑测试确认失败**
+- [x] **Step 2: 跑测试确认失败**
 
 Run: `pnpm test`
 Expected: FAIL(模块/函数未定义)。
 
-- [ ] **Step 3: 实现 gameLogic**
+- [x] **Step 3: 实现 gameLogic**
 
 `src/state/gameLogic.ts`:
 ```ts
@@ -396,11 +396,11 @@ export function openTreasure(state: SaveState, island: IslandDef, nodeId: string
 }
 ```
 
-- [ ] **Step 4: 跑测试确认通过**
+- [x] **Step 4: 跑测试确认通过**
 
 Run: `pnpm test` → Expected: PASS(全绿)。
 
-- [ ] **Step 5: 提交**
+- [x] **Step 5: 提交**
 
 ```bash
 git add src/state/gameLogic.ts src/state/gameLogic.test.ts
