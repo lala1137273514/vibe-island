@@ -727,9 +727,9 @@ git commit -m "feat: asset fetch script with CSS fallback + component styles"
 ```
 **LearnCards:** 接 `cards: LearnCard[]`,上一页/下一页,正文用 `.body-text`。
 
-- [ ] **Step 1:** 实现两组件。学习阶段与挑战阶段用本地 state 切换。
-- [ ] **Step 2: 冒烟测试** `NodePanel.test.tsx`:渲染含第一张卡标题;翻到末页出现「开始挑战」。`pnpm test` → PASS。
-- [ ] **Step 3: 提交** `git commit -m "feat: node panel + learn cards"`。
+- [x] **Step 1:** 实现两组件。学习阶段与挑战阶段用本地 state 切换。(TaskRenderer 先放最小挂载点,Task 11 实现)
+- [x] **Step 2: 冒烟测试** `NodePanel.test.tsx`:渲染含第一张卡标题;翻到末页出现「开始挑战」。`pnpm test` → PASS。
+- [x] **Step 3: 提交** `git commit -m "feat: node panel + learn cards"`。
 
 ---
 

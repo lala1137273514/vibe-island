@@ -96,6 +96,9 @@ img,canvas{image-rendering:pixelated;}
 .node-panel{width:min(560px,92vw);max-height:86vh;overflow:auto;}
 .node-panel h2{font-size:14px;margin:0 0 12px;}
 .learn-card{min-height:140px;}
+.learn-card-title{font-size:12px;margin:0 0 8px;}
+.page-indicator{font-size:10px;align-self:center;margin-right:auto;}
+.chapter-slug{font-size:10px;color:#8a7a5a;margin-left:8px;}
 .panel-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;}
 
 /* ====== 成就墙 ====== */
