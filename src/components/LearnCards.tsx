@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { LearnCard } from '../content/types'
+import { PixelButton } from '../ui'
 
 export function LearnCards({ cards, onAllRead }: { cards: LearnCard[]; onAllRead: () => void }) {
   const [idx, setIdx] = useState(0)
@@ -13,10 +14,10 @@ export function LearnCards({ cards, onAllRead }: { cards: LearnCard[]; onAllRead
       </div>
       <div className="panel-actions">
         <span className="page-indicator">{idx + 1} / {cards.length}</span>
-        <button className="pixel-btn" disabled={idx === 0} onClick={() => setIdx(i => i - 1)}>上一页</button>
+        <PixelButton disabled={idx === 0} onClick={() => setIdx(i => i - 1)}>上一页</PixelButton>
         {last
-          ? <button className="pixel-btn" onClick={onAllRead}>开始挑战</button>
-          : <button className="pixel-btn" onClick={() => setIdx(i => i + 1)}>下一页</button>}
+          ? <PixelButton onClick={onAllRead}>开始挑战</PixelButton>
+          : <PixelButton onClick={() => setIdx(i => i + 1)}>下一页</PixelButton>}
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { FillPromptTask as FillT } from '../content/types'
 import { scoreTask } from '../state/gameLogic'
+import { PixelButton } from '../ui'
 
 export function FillPromptTask({ task, onResult }: { task: FillT; onResult: (correct: boolean) => void }) {
   const parts = task.template.split('___')
@@ -33,7 +34,7 @@ export function FillPromptTask({ task, onResult }: { task: FillT; onResult: (cor
         {task.blanks.map((b, i) => <li key={i}>空{i + 1} 提示:{b.hint}</li>)}
       </ul>
       <div className="panel-actions">
-        <button className="pixel-btn" disabled={result === true} onClick={submit}>提交</button>
+        <PixelButton disabled={result === true} onClick={submit}>提交</PixelButton>
       </div>
       {result === true && <p className="feedback-ok">✔ 答对了!{task.explain}</p>}
       {result === false && <p className="feedback-bad">✘ 还差一点,看看提示再试试。</p>}

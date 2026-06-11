@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { MatchTask as MatchT } from '../content/types'
 import { scoreTask } from '../state/gameLogic'
+import { PixelButton } from '../ui'
 
 // 右列乱序展示,value 仍是原始下标,判分用 scoreTask(mapping[i]===i)
 function shuffle<T>(arr: T[]): T[] {
@@ -40,7 +41,7 @@ export function MatchTask({ task, onResult }: { task: MatchT; onResult: (correct
         </div>
       ))}
       <div className="panel-actions">
-        <button className="pixel-btn" disabled={!allPicked || result === true} onClick={submit}>提交</button>
+        <PixelButton disabled={!allPicked || result === true} onClick={submit}>提交</PixelButton>
       </div>
       {result === true && <p className="feedback-ok">✔ 全部配对正确!</p>}
       {result === false && <p className="feedback-bad">✘ 有配对不对,调整后再提交。</p>}

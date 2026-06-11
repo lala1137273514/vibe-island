@@ -10,6 +10,7 @@ import { NodePanel } from './components/NodePanel'
 import { HUD } from './components/HUD'
 import { AchievementShelf } from './components/AchievementShelf'
 import { Celebration } from './components/Celebration'
+import { PixelToast } from './ui'
 
 export default function App() {
   const { save, justEarned, finishNode, openChest } = useGameState(ORIGIN_ISLAND)
@@ -64,7 +65,7 @@ export default function App() {
       )}
       {shelfOpen && <AchievementShelf save={save} onClose={() => setShelfOpen(false)} />}
       <Celebration show={celebrating} onDone={() => { setCelebrating(false); setScene('map') }} />
-      {toast && <div className="toast">{toast}</div>}
+      {toast && <PixelToast>{toast}</PixelToast>}
     </>
   )
 }

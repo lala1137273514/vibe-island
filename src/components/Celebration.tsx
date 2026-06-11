@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react'
+import { PixelPanel } from '../ui'
 
 const COLORS = ['#f2c14e', '#e6c47a', '#5fa64d', '#5b9bd5', '#c0392b', '#f4ecd6']
 
@@ -21,7 +22,7 @@ export function Celebration({ show, onDone }: { show: boolean; onDone: () => voi
   if (!show) return null
   return (
     <div className="celebration" data-testid="celebration">
-      <div className="celebration-banner pixel-panel">🎉 起源岛通关!进阶之海的云雾散开了!</div>
+      <PixelPanel className="celebration-banner">🎉 起源岛通关!进阶之海的云雾散开了!</PixelPanel>
       {sparks.map((s, i) => (
         <span
           key={i}
