@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import type { QuizTask as QuizT } from '../content/types'
-import { scoreTask } from '../game/gameLogic'
-import { PixelButton } from '../ui'
+import type { QuizTask as QuizT } from '../../content/types'
+import { scoreTask } from '../../game/gameLogic'
+import { PixelButton } from '../../ui'
 
 export function QuizTask({ task, onResult }: { task: QuizT; onResult: (correct: boolean) => void }) {
   const [picked, setPicked] = useState<number | null>(null)

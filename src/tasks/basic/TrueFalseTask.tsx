@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import type { TrueFalseTask as TfT } from '../content/types'
-import { scoreTask } from '../game/gameLogic'
-import { PixelButton } from '../ui'
+import type { TrueFalseTask as TfT } from '../../content/types'
+import { scoreTask } from '../../game/gameLogic'
+import { PixelButton } from '../../ui'
 
 export function TrueFalseTask({ task, onResult }: { task: TfT; onResult: (correct: boolean) => void }) {
   const [choices, setChoices] = useState<(boolean | null)[]>(Array(task.statements.length).fill(null))

@@ -5,10 +5,10 @@ import { QuizTask } from './QuizTask'
 import { TrueFalseTask } from './TrueFalseTask'
 import { MatchTask } from './MatchTask'
 import { FillPromptTask } from './FillPromptTask'
-import { TaskRenderer } from './TaskRenderer'
+import { TaskRenderer } from '../TaskRenderer'
 import type {
   QuizTask as QuizT, TrueFalseTask as TfT, MatchTask as MatchT, FillPromptTask as FillT,
-} from '../content/types'
+} from '../../content/types'
 
 const quiz: QuizT = { type: 'quiz', question: '一加一等于几?', options: ['一', '二', '三'], answerIndex: 1, explain: '基础算术。' }
 const tf: TfT = { type: 'truefalse', statements: [
