@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import type { IslandDef, SaveState } from '../content/types'
-import { initSave, completeNode, openTreasure, earnedAchievements } from './gameLogic'
-import { ACHIEVEMENTS } from '../content/achievements'
+import { initSave, completeNode, openTreasure, earnedAchievements } from '../game/gameLogic'
+import { ACHIEVEMENTS } from '../game/achievements'
 import { loadSave, persist } from './storage'
 
 export function useGameState(island: IslandDef) {

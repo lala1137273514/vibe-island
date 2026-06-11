@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { MatchTask as MatchT } from '../content/types'
-import { scoreTask } from '../state/gameLogic'
+import { scoreTask } from '../game/gameLogic'
 import { PixelButton } from '../ui'
 
 // 右列乱序展示,value 仍是原始下标,判分用 scoreTask(mapping[i]===i)

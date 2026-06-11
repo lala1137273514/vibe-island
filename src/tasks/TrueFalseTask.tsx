@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { TrueFalseTask as TfT } from '../content/types'
-import { scoreTask } from '../state/gameLogic'
+import { scoreTask } from '../game/gameLogic'
 import { PixelButton } from '../ui'
 
 export function TrueFalseTask({ task, onResult }: { task: TfT; onResult: (correct: boolean) => void }) {

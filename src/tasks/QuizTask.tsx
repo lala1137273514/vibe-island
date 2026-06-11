@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { QuizTask as QuizT } from '../content/types'
-import { scoreTask } from '../state/gameLogic'
+import { scoreTask } from '../game/gameLogic'
 import { PixelButton } from '../ui'
 
 export function QuizTask({ task, onResult }: { task: QuizT; onResult: (correct: boolean) => void }) {

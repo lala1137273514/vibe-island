@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { FillPromptTask as FillT } from '../content/types'
-import { scoreTask } from '../state/gameLogic'
+import { scoreTask } from '../game/gameLogic'
 import { PixelButton } from '../ui'
 
 export function FillPromptTask({ task, onResult }: { task: FillT; onResult: (correct: boolean) => void }) {

@@ -1,7 +1,7 @@
 import { it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { AchievementShelf } from './AchievementShelf'
-import { ACHIEVEMENTS } from '../content/achievements'
+import { ACHIEVEMENTS } from '../game/achievements'
 import type { SaveState } from '../content/types'
 
 const save: SaveState = { version: 1, nodeStatus: {}, achievements: ['starter'],

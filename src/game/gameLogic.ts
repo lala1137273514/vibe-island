@@ -1,5 +1,5 @@
 import type { IslandDef, NodeTask, TaskAnswer, SaveState } from '../content/types'
-import type { Achievement } from '../content/achievements'
+import type { Achievement } from './achievements'
 
 const norm = (s: string) => s.trim().toLowerCase()
 

@@ -1,4 +1,4 @@
-import type { SaveState } from './types'
+import type { SaveState } from '../content/types'
 
 export interface Achievement {
   id: string; name: string; desc: string; check: (s: SaveState) => boolean

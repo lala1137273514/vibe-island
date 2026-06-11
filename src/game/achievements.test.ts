@@ -1,6 +1,6 @@
 import { it, expect } from 'vitest'
 import { earnedAchievements } from './gameLogic'
-import { ACHIEVEMENTS } from '../content/achievements'
+import { ACHIEVEMENTS } from './achievements'
 import type { SaveState } from '../content/types'
 
 const base: SaveState = { version:1, nodeStatus:{}, achievements:[], coins:0, stars:0,

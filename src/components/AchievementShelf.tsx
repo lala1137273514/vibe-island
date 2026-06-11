@@ -1,4 +1,4 @@
-import { ACHIEVEMENTS } from '../content/achievements'
+import { ACHIEVEMENTS } from '../game/achievements'
 import type { SaveState } from '../content/types'
 import { PixelDialog, PixelButton } from '../ui'
 

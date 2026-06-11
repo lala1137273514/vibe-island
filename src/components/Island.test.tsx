@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Island } from './Island'
 import { ORIGIN_ISLAND } from '../content/stage1'
-import { initSave } from '../state/gameLogic'
+import { initSave } from '../game/gameLogic'
 
 const setup = () => {
   const onOpenNode = vi.fn()
