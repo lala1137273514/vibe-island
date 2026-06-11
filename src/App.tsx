@@ -9,6 +9,7 @@ import { Island } from './components/Island'
 import { NodePanel } from './components/NodePanel'
 import { HUD } from './components/HUD'
 import { AchievementShelf } from './components/AchievementShelf'
+import { AiSettings } from './components/AiSettings'
 import { Celebration } from './components/Celebration'
 import { PixelToast } from './ui'
 
@@ -18,6 +19,7 @@ export default function App() {
   const [islandId, setIslandId] = useState('origin')
   const [activeNode, setActiveNode] = useState<GameNode | null>(null)
   const [shelfOpen, setShelfOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const [celebrating, setCelebrating] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
 
@@ -43,7 +45,7 @@ export default function App() {
 
   return (
     <>
-      <HUD save={save} onToggleShelf={() => setShelfOpen(o => !o)} />
+      <HUD save={save} onToggleShelf={() => setShelfOpen(o => !o)} onOpenSettings={() => setSettingsOpen(true)} />
       <div className="app-scene">
         {scene === 'map'
           ? <WorldMap
@@ -64,6 +66,7 @@ export default function App() {
         <NodePanel node={activeNode} onPass={handlePass} onClose={() => setActiveNode(null)} />
       )}
       {shelfOpen && <AchievementShelf save={save} onClose={() => setShelfOpen(false)} />}
+      {settingsOpen && <AiSettings onClose={() => setSettingsOpen(false)} />}
       <Celebration show={celebrating} onDone={() => { setCelebrating(false); setScene('map') }} />
       {toast && <PixelToast>{toast}</PixelToast>}
     </>

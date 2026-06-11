@@ -149,6 +149,12 @@ img,canvas{image-rendering:pixelated;}
 .proto-chip{font-size:11px;margin:2px;background:var(--c-grass);color:#fff;}
 .proto-tray{display:flex;flex-wrap:wrap;gap:6px;}
 .proto-block.picked{background:var(--c-grass);color:#fff;}
+.ai-hint{color:#8a7a5a;font-size:12px;}
+.ai-settings{width:min(520px,92vw);}
+.ai-field{display:block;margin:8px 0;}
+.ai-field .fill-input{display:block;width:100%;margin:4px 0 0;}
+.dialog-free-input{width:70%;}
+.forge-live-input{width:100%;font-family:inherit;}
 
 /* ====== 通关烟花(纯 CSS) ====== */
 .firework{position:fixed;width:6px;height:6px;z-index:40;animation:explode 1.2s ease-out forwards;}
