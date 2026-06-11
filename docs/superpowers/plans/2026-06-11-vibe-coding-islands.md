@@ -709,9 +709,9 @@ git commit -m "feat: asset fetch script with CSS fallback + component styles"
 **NodeMarker:** 按 status 三态渲染(locked 不可点;available 跳动可点;done 打勾)。
 **Character:** 像素小人,用 CSS `transition` 把 `left/top` 过渡到「当前所在节点」的 position,实现跳点移动(由 Island 根据最近 available/最后 done 节点决定站位)。
 
-- [ ] **Step 1:** 实现三个组件(绝对定位:`style={{left:`${x}%`,top:`${y}%`}}`)。
-- [ ] **Step 2: 冒烟测试** `Island.test.tsx`:给起源岛 + 初始 nodeStatus,点 available 节点触发 `onOpenNode`,点 locked 不触发,点返回触发 `onBack`。`pnpm test` → PASS。
-- [ ] **Step 3: 提交** `git commit -m "feat: island scene + character hop"`。
+- [x] **Step 1:** 实现三个组件(绝对定位:`style={{left:`${x}%`,top:`${y}%`}}`)。
+- [x] **Step 2: 冒烟测试** `Island.test.tsx`:给起源岛 + 初始 nodeStatus,点 available 节点触发 `onOpenNode`,点 locked 不触发,点返回触发 `onBack`。`pnpm test` → PASS。
+- [x] **Step 3: 提交** `git commit -m "feat: island scene + character hop"`。
 
 ---
 
