@@ -107,9 +107,13 @@ it('完整通关流程覆盖验收标准 ①-⑨', async () => {
   await closePanel()
   expect(screen.getByText(/寻宝者/)).toBeInTheDocument()
 
+  // Mom Test → 老妈访谈屋(npc-dialog):连选 3 张有效问题卡
   await openNode('Mom Test')
   await readCardsAndStartChallenge()
-  await solveTrueFalse([true, false, false, true])
+  await user.click(screen.getByRole('button', { name: /最近一次想恢复锻炼/ }))
+  await user.click(screen.getByRole('button', { name: /你现在是怎么解决产后恢复/ }))
+  await user.click(screen.getByRole('button', { name: /花过钱吗/ }))
+  expect(screen.getByText(/情报集齐/)).toBeInTheDocument()
   await closePanel()
 
   await openNode('JTBD')

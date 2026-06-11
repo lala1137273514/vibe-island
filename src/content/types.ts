@@ -2,7 +2,7 @@ export type NodeStatus = 'locked' | 'available' | 'done'
 export type Region = 'stage-1' | 'stage-2' | 'stage-3'
 export type TaskType =
   | 'quiz' | 'truefalse' | 'match' | 'fill-prompt'
-  | 'error-er'
+  | 'error-er' | 'npc-dialog'
 
 export interface LearnCard { title: string; body: string }
 
@@ -26,9 +26,19 @@ export interface ErrorStep {
 export interface ErrorCase { symptom: string; steps: ErrorStep[] }
 export interface ErrorErTask { type: 'error-er'; intro: string; cases: ErrorCase[] }
 
+// ===== 老妈访谈屋(Mom Test) =====
+export interface DialogCard { question: string; valid: boolean; reply: string; lesson: string }
+export interface NpcDialogTask {
+  type: 'npc-dialog'
+  npcName: string
+  scenario: string
+  rounds: { cards: DialogCard[] }[]
+  goal: { validNeeded: number; maxViolations: number }
+}
+
 export type NodeTask =
   | QuizTask | TrueFalseTask | MatchTask | FillPromptTask
-  | ErrorErTask
+  | ErrorErTask | NpcDialogTask
 
 // 各任务对应的作答数据
 export type TaskAnswer =
@@ -37,6 +47,7 @@ export type TaskAnswer =
   | { type: 'match'; mapping: number[] }     // mapping[i]=左 i 选的右项下标
   | { type: 'fill-prompt'; values: string[] }
   | { type: 'error-er'; picks: number[][] }  // picks[case][step] = 该步首选下标
+  | { type: 'npc-dialog'; picks: number[] }  // picks[round] = 选的问题卡下标
 
 export interface GameNode {
   id: string
