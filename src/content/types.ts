@@ -1,6 +1,8 @@
 export type NodeStatus = 'locked' | 'available' | 'done'
 export type Region = 'stage-1' | 'stage-2' | 'stage-3'
-export type TaskType = 'quiz' | 'truefalse' | 'match' | 'fill-prompt'
+export type TaskType =
+  | 'quiz' | 'truefalse' | 'match' | 'fill-prompt'
+  | 'error-er'
 
 export interface LearnCard { title: string; body: string }
 
@@ -16,7 +18,17 @@ export interface MatchTask {
 export interface FillPromptTask {
   type: 'fill-prompt'; template: string; blanks: { accept: string[]; hint: string }[]; explain: string
 }
-export type NodeTask = QuizTask | TrueFalseTask | MatchTask | FillPromptTask
+// ===== 报错急诊室 =====
+export interface ErrorStep {
+  prompt: string
+  options: { text: string; correct: boolean; feedback: string }[]
+}
+export interface ErrorCase { symptom: string; steps: ErrorStep[] }
+export interface ErrorErTask { type: 'error-er'; intro: string; cases: ErrorCase[] }
+
+export type NodeTask =
+  | QuizTask | TrueFalseTask | MatchTask | FillPromptTask
+  | ErrorErTask
 
 // 各任务对应的作答数据
 export type TaskAnswer =
@@ -24,6 +36,7 @@ export type TaskAnswer =
   | { type: 'truefalse'; choices: boolean[] }
   | { type: 'match'; mapping: number[] }     // mapping[i]=左 i 选的右项下标
   | { type: 'fill-prompt'; values: string[] }
+  | { type: 'error-er'; picks: number[][] }  // picks[case][step] = 该步首选下标
 
 export interface GameNode {
   id: string

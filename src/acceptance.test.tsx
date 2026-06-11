@@ -117,9 +117,15 @@ it('完整通关流程覆盖验收标准 ①-⑨', async () => {
   await user.click(screen.getByRole('button', { name: /用户当前所有可接受的替代方案/ }))
   await closePanel()
 
+  // 常见报错 → 报错急诊室(error-er):按方法论走对全部诊断路径
   await openNode('常见报错')
   await readCardsAndStartChallenge()
-  await solveTrueFalse([false, true, true, false])
+  await user.click(screen.getByRole('button', { name: '描述现象 + 截图,直接丢给 AI' }))
+  await user.click(screen.getByRole('button', { name: 'Console 标签里的红色报错信息' }))
+  await user.click(screen.getByRole('button', { name: '刚才做了什么 + 现在看到什么 + 想要什么效果' }))
+  await user.click(screen.getByRole('button', { name: '描述现象 + 截图,直接问 AI' }))
+  await user.click(screen.getByRole('button', { name: /Network 面板:重新操作一遍/ }))
+  expect(screen.getByText(/治愈出院/)).toBeInTheDocument()
   await closePanel()
   expect(screen.getByText(/集邮册/)).toBeInTheDocument()
 

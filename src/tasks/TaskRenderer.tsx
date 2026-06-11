@@ -4,6 +4,7 @@ import { QuizTask } from './QuizTask'
 import { TrueFalseTask } from './TrueFalseTask'
 import { MatchTask } from './MatchTask'
 import { FillPromptTask } from './FillPromptTask'
+import { ErrorErTask } from './error-er/ErrorErTask'
 
 // 按 task.type 分发;跟踪「首次尝试是否就对」决定 star
 export function TaskRenderer({ task, onPass }: { task: NodeTask; onPass: (star: boolean) => void }) {
@@ -17,5 +18,6 @@ export function TaskRenderer({ task, onPass }: { task: NodeTask; onPass: (star: 
     case 'truefalse': return <TrueFalseTask task={task} onResult={handleResult} />
     case 'match': return <MatchTask task={task} onResult={handleResult} />
     case 'fill-prompt': return <FillPromptTask task={task} onResult={handleResult} />
+    case 'error-er': return <ErrorErTask task={task} onResult={handleResult} />
   }
 }

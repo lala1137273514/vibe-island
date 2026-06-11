@@ -233,14 +233,60 @@ export const ORIGIN_ISLAND: IslandDef = {
           body: '遇到问题别急着打开开发者工具——先把现象和截图直接丢给 AI,很多时候它看一眼就给出方案。只有当 AI 说"需要更多信息"时才按 F12,按问题类型对症截图:页面白屏/报错→Console 标签截红色报错;数据存不上/接口出错→Network 标签重新操作一遍,截请求、参数、返回;样式不对→右键元素"检查"截 Styles 面板。' },
       ],
       task: {
-        type: 'truefalse',
-        statements: [
-          { text: '按照本章的排错流程,遇到报错的第一步应该是立刻打开 F12 开发者工具仔细分析。', isTrue: false },
-          { text: '向 AI 描述报错时,应该讲清楚三件事:刚才做了什么、现在看到了什么、想要达到什么效果。', isTrue: true },
-          { text: '如果是数据保存失败或接口报错的问题,应该截图 F12 里的 Network 面板(包括请求、参数、返回)补充给 AI。', isTrue: true },
-          { text: '在 AI 时代调试代码,必须先完全理解每条错误信息的含义,才能开始修复。', isTrue: false },
+        type: 'error-er',
+        intro: '两位像素病人等待会诊。按本章方法论选对每一步诊断动作,误诊 3 次病情就恶化了!',
+        cases: [
+          {
+            symptom: '病人A:点开页面一片白,什么都不显示',
+            steps: [
+              {
+                prompt: '第一步先做什么?',
+                options: [
+                  { text: '描述现象 + 截图,直接丢给 AI', correct: true, feedback: '' },
+                  { text: '立刻打开 F12 逐条分析错误', correct: false, feedback: '原文:不要急着打开 F12——先把现象和截图丢给 AI,很多时候它看一眼就给方案。' },
+                  { text: '搜索引擎搜半小时「白屏怎么解决」', correct: false, feedback: '原文反面清单:花半小时搜索"xxx 错误怎么解决"是在浪费时间。' },
+                ],
+              },
+              {
+                prompt: 'AI 说「需要更多信息」。白屏/报错类问题,该按 F12 截哪个面板?',
+                options: [
+                  { text: 'Console 标签里的红色报错信息', correct: true, feedback: '' },
+                  { text: 'Elements 的 Styles 面板', correct: false, feedback: 'Elements/Styles 是样式不对时用的;白屏报错要看 Console。' },
+                  { text: 'Network 请求列表', correct: false, feedback: 'Network 管数据/接口问题;白屏报错先看 Console 红字。' },
+                ],
+              },
+              {
+                prompt: '把问题讲清楚,哪组信息最完整?',
+                options: [
+                  { text: '刚才做了什么 + 现在看到什么 + 想要什么效果', correct: true, feedback: '' },
+                  { text: '只发一句「为啥报错?」', correct: false, feedback: '上下文不够,AI 只能给一堆猜测。三要素:做了什么/看到什么/想要什么。' },
+                  { text: '把全部代码贴上,一个字不解释', correct: false, feedback: '缺现象和预期,AI 不知道你要修什么。按时间顺序用大白话说清三件事。' },
+                ],
+              },
+            ],
+          },
+          {
+            symptom: '病人B:点「保存」按钮,数据没存上,页面也没提示',
+            steps: [
+              {
+                prompt: '第一步先做什么?',
+                options: [
+                  { text: '描述现象 + 截图,直接问 AI', correct: true, feedback: '' },
+                  { text: '重启电脑再试一次', correct: false, feedback: '慌张瞎试不解决问题。标准流程:看到问题→截图→问 AI→照做。' },
+                  { text: '先打开 F12 逐行读源代码', correct: false, feedback: '原文:F12 不是第一步,是 AI 说"需要更多信息"之后的第二步。' },
+                ],
+              },
+              {
+                prompt: 'AI 要请求详情。数据/接口类问题该去哪截?',
+                options: [
+                  { text: 'Network 面板:重新操作一遍,截请求 URL、状态码、参数和返回', correct: true, feedback: '' },
+                  { text: 'Console 面板的红字', correct: false, feedback: '数据存不上/接口出错对应 Network 面板;Console 管白屏报错。' },
+                  { text: '系统任务管理器', correct: false, feedback: '那是看进程的,跟接口请求无关。去 F12 的 Network 标签。' },
+                ],
+              },
+            ],
+          },
         ],
-        explain: '原文核心心法:第一步是描述现象+截图直接问 AI(不要急着打开 F12);你不需要理解错误,只需要学会怎么问——掌握流程后 90% 的报错都能自己解决。',
       },
     },
   ],
