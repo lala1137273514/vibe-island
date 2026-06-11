@@ -768,9 +768,9 @@ git commit -m "feat: asset fetch script with CSS fallback + component styles"
 
 **Celebration:** 纯 CSS/Canvas 像素烟花,接 `show: boolean` + `onDone`。**App:** 顶层用 `useGameState(ORIGIN_ISLAND)`;`scene` 本地 state(`'map'|'island'`);组合 WorldMap / Island / NodePanel / HUD / AchievementShelf / Celebration。流程:点岛→island;点节点→开 NodePanel;onPass→`finishNode`/`openChest`;检测起源岛主线全 done 且未庆祝过→放 Celebration→回 map 显示进阶之海云雾散开;`justEarned` 非空→弹成就 toast。
 
-- [ ] **Step 1:** 实现 Celebration + 在 App 串联全部组件与回调。
-- [ ] **Step 2: 集成冒烟测试** `App.test.tsx`:渲染→默认 map 见「起源岛」;点起源岛→见节点;点 origin-1→见 NodePanel 第一张学习卡。`pnpm test` → PASS。
-- [ ] **Step 3: 提交** `git commit -m "feat: celebration + app integration"`。
+- [x] **Step 1:** 实现 Celebration + 在 App 串联全部组件与回调。
+- [x] **Step 2: 集成冒烟测试** `App.test.tsx`:渲染→默认 map 见「起源岛」;点起源岛→见节点;点 origin-1→见 NodePanel 第一张学习卡。`pnpm test` → PASS。
+- [x] **Step 3: 提交** `git commit -m "feat: celebration + app integration"`。
 
 ---
 

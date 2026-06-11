@@ -13,7 +13,12 @@ img,canvas{image-rendering:pixelated;}
 .body-text{font-family:system-ui,"Microsoft YaHei",sans-serif;line-height:1.7;}
 
 /* ====== 场景容器 ====== */
+.app-scene{height:100%;padding-top:42px;}
 .scene{position:relative;width:100%;height:100%;overflow:hidden;}
+.empty-island-note{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);font-size:12px;}
+.celebration{position:fixed;inset:0;z-index:45;pointer-events:none;}
+.celebration-banner{position:absolute;top:32%;left:50%;transform:translate(-50%,-50%);
+  font-size:13px;text-align:center;animation:toast-in .4s;}
 /* 海面:纯 CSS 像素波纹(无素材回退态即完整观感) */
 .sea-bg{background:
   repeating-linear-gradient(0deg,transparent 0 14px,rgba(255,255,255,.06) 14px 16px),

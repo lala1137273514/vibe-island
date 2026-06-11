@@ -26,6 +26,9 @@ export function Island({ island, nodeStatus, onOpenNode, onBack, activeNodeId }:
           fill="none" stroke="rgba(58,42,26,.45)" strokeWidth="0.8" strokeDasharray="2 1.5"
         />
       </svg>
+      {island.nodes.length === 0 && (
+        <div className="pixel-panel empty-island-note">🚧 新海域已解锁,教学内容即将到来</div>
+      )}
       {island.nodes.map(n => (
         <NodeMarker
           key={n.id}
