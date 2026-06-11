@@ -66,7 +66,7 @@ vibe-islands/
 **Files:**
 - Create: 整个项目骨架(vite 模板)、`vite.config.ts`、`src/styles/tokens.css`、`src/styles/pixel.css`
 
-- [ ] **Step 1: 用 Vite 创建 React+TS 项目**
+- [x] **Step 1: 用 Vite 创建 React+TS 项目**
 
 在 `C:\Users\QYL\Desktop\AI赋能\vibe-islands` 目录(已存在,内含 docs/)。运行:
 ```bash
@@ -75,14 +75,14 @@ npm create vite@latest . -- --template react-ts
 ```
 若提示目录非空,选择「忽略并继续 / Ignore files and continue」(保留 docs/)。
 
-- [ ] **Step 2: 安装依赖(含测试)**
+- [x] **Step 2: 安装依赖(含测试)**
 
 ```bash
 pnpm install
 pnpm add -D vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom
 ```
 
-- [ ] **Step 3: 配置 vitest(jsdom)**
+- [x] **Step 3: 配置 vitest(jsdom)**
 
 `vite.config.ts`:
 ```ts
@@ -106,7 +106,7 @@ import '@testing-library/jest-dom'
 "test:watch": "vitest"
 ```
 
-- [ ] **Step 4: 调色板 + 像素基础样式**
+- [x] **Step 4: 调色板 + 像素基础样式**
 
 `src/styles/tokens.css`:
 ```css
@@ -135,7 +135,7 @@ img,canvas{image-rendering:pixelated;}
 ```
 在 `src/main.tsx` 顶部 import 两个 css。
 
-- [ ] **Step 5: 初始化 git 并首次提交**
+- [x] **Step 5: 初始化 git 并首次提交**
 
 ```bash
 git init
@@ -144,7 +144,7 @@ git add -A
 git commit -m "chore: scaffold vite react ts + pixel base + vitest"
 ```
 
-- [ ] **Step 6: 冒烟验证**
+- [x] **Step 6: 冒烟验证**
 
 ```bash
 pnpm test    # 目前无测试,应 0 passed 正常退出
@@ -159,7 +159,7 @@ Expected: dev 正常起站,无编译错误。
 **Files:**
 - Create: `src/content/types.ts`
 
-- [ ] **Step 1: 写类型(无逻辑,直接落地)**
+- [x] **Step 1: 写类型(无逻辑,直接落地)**
 
 ```ts
 export type NodeStatus = 'locked' | 'available' | 'done'
@@ -221,7 +221,7 @@ export interface SaveState {
 }
 ```
 
-- [ ] **Step 2: 提交**
+- [x] **Step 2: 提交**
 
 ```bash
 git add src/content/types.ts && git commit -m "feat: domain types"
