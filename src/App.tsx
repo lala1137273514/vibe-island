@@ -6,14 +6,14 @@ import { ACHIEVEMENTS } from './game/achievements'
 import { useGameState } from './state/useGameState'
 import { supportsWebGL } from './engine3d/webgl'
 import type { WorldIslandSpec } from './engine3d/WorldScene'
-import { Island } from './components/Island'
 import { NodePanel } from './components/NodePanel'
 import { HUD } from './components/HUD'
 import { AchievementShelf } from './components/AchievementShelf'
 import { AiSettings } from './components/AiSettings'
 import { Celebration } from './components/Celebration'
 import { IslandDock, type DockItem } from './components/IslandDock'
-import { PixelToast, PixelPanel } from './ui'
+import { NodeDrawer } from './components/NodeDrawer'
+import { PixelToast, PixelPanel, PixelButton } from './ui'
 
 const Stage3D = lazy(() => import('./engine3d/Stage3D'))
 
@@ -49,8 +49,15 @@ export default function App() {
   }, [justEarned])
 
   const island = ISLANDS.find(i => i.id === islandId) ?? ORIGIN_ISLAND
+  const layout = ISLAND_LAYOUT[island.id] ?? { seed: 7777, position: [0, 0, 16] as [number, number, number] }
   const enterIsland = (id: string) => { setIslandId(id); setScene('island') }
   const lockedTip = () => setTip('完成上一海域后解锁')
+
+  // 小人站位:第一个 available 主线;全完成则最后一个 done;兜底起点
+  const mains = island.nodes.filter(n => n.kind === 'main').sort((a, b) => a.order - b.order)
+  const standing = mains.find(n => save.nodeStatus[n.id] === 'available')
+    ?? [...mains].reverse().find(n => save.nodeStatus[n.id] === 'done')
+    ?? mains[0]
 
   const worldIslands: WorldIslandSpec[] = ISLANDS.map(isle => ({
     id: isle.id,
@@ -78,28 +85,48 @@ export default function App() {
     <>
       <HUD save={save} onToggleShelf={() => setShelfOpen(o => !o)} onOpenSettings={() => setSettingsOpen(true)} />
       <div className="app-scene">
-        {scene === 'map' ? (
-          <div className="scene sea-bg world3d-wrap">
-            {webgl ? (
-              <Suspense fallback={<PixelPanel className="loading-note">⛵ 群岛装载中…</PixelPanel>}>
-                <Stage3D islands={worldIslands} onEnter={enterIsland} onLockedClick={lockedTip} />
-              </Suspense>
-            ) : (
-              <PixelPanel className="webgl-note">🕹️ 当前环境不支持 WebGL,3D 群岛无法显示;下方码头依然可以通航全部岛屿。</PixelPanel>
-            )}
-            <h1 className="map-title">Vibe Coding 群岛</h1>
-            <div className="map-coins">🪙 {save.coins}</div>
-            <IslandDock items={dockItems} onSelect={enterIsland} onLockedClick={lockedTip} />
-          </div>
-        ) : (
-          <Island
-            island={island}
-            nodeStatus={save.nodeStatus}
-            activeNodeId={activeNode?.id ?? null}
-            onOpenNode={setActiveNode}
-            onBack={() => setScene('map')}
-          />
-        )}
+        <div className={`scene ${scene === 'map' ? 'sea-bg' : 'grass-bg'} world3d-wrap`}>
+          {webgl ? (
+            <Suspense fallback={<PixelPanel className="loading-note">⛵ 群岛装载中…</PixelPanel>}>
+              <Stage3D
+                mode={scene === 'map' ? 'world' : 'island'}
+                world={{ islands: worldIslands, onEnter: enterIsland, onLockedClick: lockedTip }}
+                island={scene === 'island' ? {
+                  def: island,
+                  seed: layout.seed,
+                  topColor: layout.topColor,
+                  nodeStatus: save.nodeStatus,
+                  activeNodeId: activeNode?.id ?? null,
+                  standingId: standing?.id ?? null,
+                  onOpenNode: setActiveNode,
+                } : null}
+              />
+            </Suspense>
+          ) : (
+            <PixelPanel className="webgl-note">🕹️ 当前环境不支持 WebGL,3D 世界无法显示;侧边卷轴与码头依然可以完整游玩。</PixelPanel>
+          )}
+          {scene === 'map' ? (
+            <>
+              <h1 className="map-title">Vibe Coding 群岛</h1>
+              <div className="map-coins">🪙 {save.coins}</div>
+              <IslandDock items={dockItems} onSelect={enterIsland} onLockedClick={lockedTip} />
+            </>
+          ) : (
+            <>
+              <PixelButton className="back-btn" onClick={() => setScene('map')}>← 返回大地图</PixelButton>
+              <h1 className="island-title">{island.name}</h1>
+              {island.nodes.length === 0 && (
+                <PixelPanel className="empty-island-note">🚧 新海域已解锁,教学内容即将到来</PixelPanel>
+              )}
+              <NodeDrawer
+                nodes={island.nodes}
+                nodeStatus={save.nodeStatus}
+                standingId={standing?.id ?? null}
+                onOpen={setActiveNode}
+              />
+            </>
+          )}
+        </div>
       </div>
       {activeNode && (
         <NodePanel node={activeNode} onPass={handlePass} onClose={() => setActiveNode(null)} />

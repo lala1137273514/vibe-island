@@ -53,11 +53,11 @@ it('完整通关流程覆盖验收标准 ①-⑨', async () => {
   expect(screen.getByText(/答对了/)).toBeInTheDocument()
   await closePanel()
 
-  // ④ 过关后:金币+10、节点1✅不可点、节点2解锁、小人移动到节点2、成就「启程者」
+  // ④ 过关后:金币+10、节点1✅不可点、节点2解锁、小人移动到节点2(卷轴上 🧍 标记)、成就「启程者」
   expect(screen.getByText('🪙 10')).toBeInTheDocument()
   expect(screen.getByRole('button', { name: '学习地图' })).toHaveAttribute('aria-disabled', 'true')
   expect(screen.getByRole('button', { name: '找到好点子' })).toHaveAttribute('aria-disabled', 'false')
-  expect(screen.getByTestId('character')).toHaveStyle({ left: '32%' })
+  expect(screen.getByRole('button', { name: '找到好点子' })).toHaveTextContent('🧍')
   expect(screen.getByText(/启程者/)).toBeInTheDocument()
 
   // 主线 2:提示词锻造铺(prompt-forge):三锤全中(一次全对 → 星星)
