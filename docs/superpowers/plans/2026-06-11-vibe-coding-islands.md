@@ -581,7 +581,7 @@ git commit -m "feat: persistence + useGameState hook with tests"
 
 **这是内容核心,必须忠于 easy-vibe 原文,不许杜撰。**
 
-- [ ] **Step 1: 抓取 Stage 1 章节原文**
+- [x] **Step 1: 抓取 Stage 1 章节原文**(实际路径为 `docs/zh-cn/stage-1/<slug>/index.md`,10/10 抓取成功,笔记在 scratch/easy-vibe-stage1-notes.md)
 
 逐章读取(GitHub API 列目录 + raw 取文件):
 ```
@@ -593,7 +593,7 @@ git commit -m "feat: persistence + useGameState hook with tests"
 宝箱 slug(对应 origin-t1..t4):
 `appendix-double-diamond` / `appendix-mom-test` / `appendix-jobs-to-be-done` / `appendix-b-common-errors`
 
-- [ ] **Step 2: 每个节点提炼内容**
+- [x] **Step 2: 每个节点提炼内容**
 
 每节点:`learn` 写 2–4 张 `LearnCard`(标题 + 100–200 字精华,忠实原章核心观点,大白话);`task` 按下表选型并基于该章真实知识点出题:
 
@@ -612,7 +612,7 @@ git commit -m "feat: persistence + useGameState hook with tests"
 
 position 沿一条 S 形路径铺开(x/y 用 0–100,主线按 order 递增;4 宝箱散在角落)。coins:主线 10,宝箱 5。
 
-- [ ] **Step 3: 落地 `src/content/stage1.ts`**
+- [x] **Step 3: 落地 `src/content/stage1.ts`**
 
 导出 `export const ORIGIN_ISLAND: IslandDef`,`id:'origin'`,`region:'stage-1'`,`lockedByDefault:false`,`nextIslandId:'sea2-island1'`,nodes 为上面 10 个 `GameNode`。每个节点字段完整(参考 types.ts),不留空数组占位的主线 learn。
 
@@ -637,11 +637,11 @@ export const REGIONS: { id: IslandDef['region']; name: string }[] = [
 ]
 ```
 
-- [ ] **Step 4: 验证类型 + 回跑 Task 5 测试**
+- [x] **Step 4: 验证类型 + 回跑 Task 5 测试**(已切回 ORIGIN_ISLAND,14/14 PASS,tsc 无错)
 
 Run: `pnpm test` → 之前桩切回 `ORIGIN_ISLAND` 后应 PASS;`pnpm exec tsc --noEmit` 无类型错误。
 
-- [ ] **Step 5: 提交**
+- [x] **Step 5: 提交**
 ```bash
 git add src/content/stage1.ts src/content/islands.ts
 git commit -m "feat: origin island content from easy-vibe stage 1"

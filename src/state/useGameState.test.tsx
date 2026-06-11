@@ -1,18 +1,7 @@
 import { it, expect, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useGameState } from './useGameState'
-// TODO(Task 6): 切回 import { ORIGIN_ISLAND } from '../content/stage1'
-import type { IslandDef } from '../content/types'
-
-const ORIGIN_ISLAND: IslandDef = {
-  id: 'origin', name: '起源岛', region: 'stage-1', lockedByDefault: false,
-  nextIslandId: 'sea2-island1', nodes: [
-    { id: 'origin-1', title: '学习地图', chapterSlug:'learning-map', kind:'main', order:1, learn:[], coins:10,
-      position:{x:10,y:80}, task:{ type:'quiz', question:'q', options:['x','y'], answerIndex:1, explain:'' } },
-    { id: 'origin-2', title: '找到好点子', chapterSlug:'finding-great-idea', kind:'main', order:2, learn:[], coins:10,
-      position:{x:30,y:60}, task:{ type:'quiz', question:'q', options:['x','y'], answerIndex:0, explain:'' } },
-  ],
-}
+import { ORIGIN_ISLAND } from '../content/stage1'
 
 beforeEach(() => localStorage.clear())
 
