@@ -415,7 +415,7 @@ git commit -m "feat: pure game logic with tests"
 - Create: `src/content/achievements.ts`, `src/state/achievements.test.ts`
 - Modify: `src/state/gameLogic.ts`(加 `earnedAchievements`)
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 `src/state/achievements.test.ts`:
 ```ts
@@ -442,9 +442,9 @@ it('已在 achievements 里的不再返回', () => {
 })
 ```
 
-- [ ] **Step 2: 跑测试确认失败** → Run `pnpm test` → FAIL。
+- [x] **Step 2: 跑测试确认失败** → Run `pnpm test` → FAIL。
 
-- [ ] **Step 3: 实现成就定义 + earnedAchievements**
+- [x] **Step 3: 实现成就定义 + earnedAchievements**(按 spec 第6节补了计划遗漏的「全能学徒」成就)
 
 `src/content/achievements.ts`(check 基于 SaveState;节点级成就用 nodeStatus 判定):
 ```ts
@@ -478,9 +478,9 @@ export function earnedAchievements(state: SaveState, list: Achievement[]): strin
 }
 ```
 
-- [ ] **Step 4: 跑测试确认通过** → `pnpm test` → PASS。
+- [x] **Step 4: 跑测试确认通过** → `pnpm test` → PASS。
 
-- [ ] **Step 5: 提交**
+- [x] **Step 5: 提交**
 ```bash
 git add src/content/achievements.ts src/state/achievements.test.ts src/state/gameLogic.ts
 git commit -m "feat: achievements with tests"

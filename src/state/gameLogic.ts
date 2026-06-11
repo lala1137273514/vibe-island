@@ -1,4 +1,5 @@
 import type { IslandDef, NodeTask, TaskAnswer, SaveState } from '../content/types'
+import type { Achievement } from '../content/achievements'
 
 const norm = (s: string) => s.trim().toLowerCase()
 
@@ -46,6 +47,10 @@ export function completeNode(state: SaveState, island: IslandDef,
     coins: state.coins + node.coins,
     stars: state.stars + (opts.star ? 1 : 0),
     unlockedIslands }
+}
+
+export function earnedAchievements(state: SaveState, list: Achievement[]): string[] {
+  return list.filter(a => a.check(state) && !state.achievements.includes(a.id)).map(a => a.id)
 }
 
 export function openTreasure(state: SaveState, island: IslandDef, nodeId: string): SaveState {
