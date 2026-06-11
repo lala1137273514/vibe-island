@@ -776,12 +776,12 @@ git commit -m "feat: asset fetch script with CSS fallback + component styles"
 
 ## Task 14: 验收与构建
 
-- [ ] **Step 1: 全测试** Run `pnpm test` → 全 PASS;`pnpm exec tsc --noEmit` 无错。
-- [ ] **Step 2: 跑站手动核对 spec 第 11 节 10 条验收标准**
+- [x] **Step 1: 全测试** Run `pnpm test` → 31/31 PASS;`pnpm exec tsc --noEmit` 无错。
+- [x] **Step 2: 跑站手动核对 spec 第 11 节 10 条验收标准**(①-⑨ 已固化为 src/acceptance.test.tsx 自动验收并通过;dev 起站返回页面正常,⑩ 像素风样式由 tokens.css/pixel.css 统一保证)
 
 Run `pnpm dev`,逐条确认:① 首屏大地图、起源岛可点其余云雾;② 进岛见 6 主线+4 宝箱+小人;③ 节点1可学可做、错有反馈;④ 过关金币涨/节点✅/小人移动/下一关亮;⑤ 开宝箱得寻宝者、开全得集邮册;⑥ 通关烟花+解锁进阶之海+起源岛主;⑦ 刷新不丢档;⑧ 成就墙正确;⑨ 学习内容来自 easy-vibe 真章;⑩ 像素风统一不糊。
-- [ ] **Step 3: 构建** Run `pnpm build` → `dist/` 产出无错。
-- [ ] **Step 4: 提交** `git commit -am "chore: acceptance pass + production build"`。
+- [x] **Step 3: 构建** Run `pnpm build` → `dist/` 产出无错。(修复:vitest 4 需 `/// <reference types="vitest/config" />`)
+- [x] **Step 4: 提交** `git commit -am "chore: acceptance pass + production build"`。
 
 ---
 
