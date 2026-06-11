@@ -190,6 +190,26 @@ img,canvas{image-rendering:pixelated;}
 .drawer-btn.treasure{border-style:dashed;}
 .drawer-char{font-size:12px;}
 
+/* ====== 创造湾 ====== */
+.creator-bay{width:min(680px,94vw);max-height:88vh;overflow:auto;}
+.creator-chat{max-height:40vh;overflow:auto;border:3px dashed var(--c-wood);
+  padding:10px;margin:10px 0;background:rgba(255,255,255,.3);}
+.chat-assistant{color:var(--c-ink);}
+.chat-user{color:#2d4a7a;text-align:right;}
+.creator-input{display:flex;gap:8px;align-items:center;}
+.creator-input .fill-input{flex:1;}
+.ai-badge{font-size:10px;background:var(--c-gold);border:2px solid var(--c-ink);
+  padding:2px 6px;vertical-align:middle;}
+.island-preview .preview-title{font-size:14px;margin:0 0 10px;}
+.preview-body{display:flex;gap:14px;}
+.preview-canvas{width:240px;height:200px;border:3px solid var(--c-ink);background:var(--c-sea-dark);flex-shrink:0;}
+.preview-placeholder{font-size:64px;display:flex;align-items:center;justify-content:center;height:100%;}
+.preview-nodes{flex:1;margin:0;padding-left:16px;}
+.preview-nodes li{margin:6px 0;}
+.preview-meta{color:#8a7a5a;font-size:11px;margin-left:8px;}
+.preview-palettes{display:flex;gap:8px;margin:12px 0 0;}
+.preview-palettes .picked{background:var(--c-grass);color:#fff;}
+
 /* ====== 通关烟花(纯 CSS) ====== */
 .firework{position:fixed;width:6px;height:6px;z-index:40;animation:explode 1.2s ease-out forwards;}
 @keyframes explode{

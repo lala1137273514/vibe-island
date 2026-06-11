@@ -15,7 +15,9 @@ export function NodePanel({ node, onPass, onClose }: Props) {
   return (
     <PixelDialog onClose={onClose} className="node-panel">
       <h2>{node.kind === 'treasure' ? '💎 ' : ''}{node.title}
-        <span className="chapter-slug body-text">(来自 easy-vibe: {node.chapterSlug})</span>
+        <span className="chapter-slug body-text">
+          {node.id.startsWith('origin-') ? `(来自 easy-vibe: ${node.chapterSlug})` : '(社区 / AI 生成内容)'}
+        </span>
       </h2>
       {phase === 'learn'
         ? <LearnCards cards={node.learn} onAllRead={() => setPhase('task')} />

@@ -1,10 +1,12 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { Suspense, useEffect, useMemo, useState } from 'react'
 import type { GameNode } from './content/types'
 import { ORIGIN_ISLAND } from './content/stage1'
 import { ISLANDS } from './content/islands'
 import { ACHIEVEMENTS } from './game/achievements'
 import { useGameState } from './state/useGameState'
+import { saveService } from './services/saveService'
 import { supportsWebGL } from './engine3d/webgl'
+import { Stage3D } from './engine3d/lazyStage'
 import type { WorldIslandSpec } from './engine3d/WorldScene'
 import { NodePanel } from './components/NodePanel'
 import { HUD } from './components/HUD'
@@ -13,9 +15,10 @@ import { AiSettings } from './components/AiSettings'
 import { Celebration } from './components/Celebration'
 import { IslandDock, type DockItem } from './components/IslandDock'
 import { NodeDrawer } from './components/NodeDrawer'
+import { CreatorBay } from './components/CreatorBay'
+import { CustomIslandSession } from './components/CustomIslandSession'
+import { PALETTES } from './components/IslandPreview'
 import { PixelToast, PixelPanel, PixelButton } from './ui'
-
-const Stage3D = lazy(() => import('./engine3d/Stage3D'))
 
 const ISLAND_LAYOUT: Record<string, { seed: number; position: [number, number, number]; topColor?: string }> = {
   'origin': { seed: 1001, position: [-18, 0, 0] },
@@ -33,6 +36,8 @@ export default function App() {
   const [celebrating, setCelebrating] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
   const [tip, setTip] = useState<string | null>(null)
+  const [creatorOpen, setCreatorOpen] = useState(false)
+  const [customIslands, setCustomIslands] = useState(() => saveService.listCustomIslands())
   const webgl = useMemo(() => supportsWebGL(), [])
 
   // 新成就 toast;拿到「起源岛主」时触发通关烟花
@@ -50,7 +55,12 @@ export default function App() {
 
   const island = ISLANDS.find(i => i.id === islandId) ?? ORIGIN_ISLAND
   const layout = ISLAND_LAYOUT[island.id] ?? { seed: 7777, position: [0, 0, 16] as [number, number, number] }
-  const enterIsland = (id: string) => { setIslandId(id); setScene('island') }
+  const customItem = customIslands.find(c => c.def.id === islandId)
+  const enterIsland = (id: string) => {
+    if (id === 'creator-bay') { setCreatorOpen(true); return }
+    setIslandId(id)
+    setScene('island')
+  }
   const lockedTip = () => setTip('完成上一海域后解锁')
 
   // 小人站位:第一个 available 主线;全完成则最后一个 done;兜底起点
@@ -59,26 +69,60 @@ export default function App() {
     ?? [...mains].reverse().find(n => save.nodeStatus[n.id] === 'done')
     ?? mains[0]
 
-  const worldIslands: WorldIslandSpec[] = ISLANDS.map(isle => ({
-    id: isle.id,
-    name: isle.name,
-    seed: ISLAND_LAYOUT[isle.id]?.seed ?? 7777,
-    locked: !save.unlockedIslands.includes(isle.id),
-    playable: isle.nodes.length > 0,
-    kind: 'official' as const,
-    topColor: ISLAND_LAYOUT[isle.id]?.topColor,
-    position: ISLAND_LAYOUT[isle.id]?.position ?? [0, 0, 16],
-  }))
-  const dockItems: DockItem[] = ISLANDS.map(isle => ({
-    id: isle.id,
-    name: isle.name,
-    status: save.unlockedIslands.includes(isle.id) ? 'playable' as const : 'locked' as const,
-  }))
+  const worldIslands: WorldIslandSpec[] = [
+    ...ISLANDS.map(isle => ({
+      id: isle.id,
+      name: isle.name,
+      seed: ISLAND_LAYOUT[isle.id]?.seed ?? 7777,
+      locked: !save.unlockedIslands.includes(isle.id),
+      playable: isle.nodes.length > 0,
+      kind: 'official' as const,
+      topColor: ISLAND_LAYOUT[isle.id]?.topColor,
+      position: ISLAND_LAYOUT[isle.id]?.position ?? [0, 0, 16] as [number, number, number],
+    })),
+    {
+      id: 'creator-bay', name: '创造湾', seed: 4004, locked: false, playable: false,
+      kind: 'creator' as const, topColor: '#e6c47a', position: [0, -1, 16],
+    },
+    ...customIslands.map((c, i) => ({
+      id: c.def.id,
+      name: c.def.name,
+      seed: c.seed,
+      locked: false,
+      playable: true,
+      kind: 'custom' as const,
+      topColor: PALETTES.find(p => p.id === c.palette)?.topColor,
+      position: [(i - (customIslands.length - 1) / 2) * 14, 1, 28] as [number, number, number],
+    })),
+  ]
+  const dockItems: DockItem[] = [
+    ...ISLANDS.map(isle => ({
+      id: isle.id,
+      name: isle.name,
+      status: save.unlockedIslands.includes(isle.id) ? 'playable' as const : 'locked' as const,
+    })),
+    { id: 'creator-bay', name: '创造湾', status: 'creator' as const },
+    ...customIslands.map(c => ({ id: c.def.id, name: c.def.name, status: 'custom' as const })),
+  ]
 
   const handlePass = (star: boolean) => {
     if (!activeNode) return
     if (activeNode.kind === 'treasure') openChest(activeNode.id)
     else finishNode(activeNode.id, star)
+  }
+
+  // 用户自建岛走独立会话(自己的存档,不影响起源岛全局进度)
+  if (scene === 'island' && customItem) {
+    return (
+      <>
+        <HUD save={save} onToggleShelf={() => setShelfOpen(o => !o)} onOpenSettings={() => setSettingsOpen(true)} />
+        <div className="app-scene">
+          <CustomIslandSession key={customItem.def.id} item={customItem} webgl={webgl} onBack={() => setScene('map')} />
+        </div>
+        {shelfOpen && <AchievementShelf save={save} onClose={() => setShelfOpen(false)} />}
+        {settingsOpen && <AiSettings onClose={() => setSettingsOpen(false)} />}
+      </>
+    )
   }
 
   return (
@@ -133,6 +177,16 @@ export default function App() {
       )}
       {shelfOpen && <AchievementShelf save={save} onClose={() => setShelfOpen(false)} />}
       {settingsOpen && <AiSettings onClose={() => setSettingsOpen(false)} />}
+      {creatorOpen && (
+        <CreatorBay
+          onClose={() => setCreatorOpen(false)}
+          onSaved={() => {
+            setCustomIslands(saveService.listCustomIslands())
+            setCreatorOpen(false)
+            setToast('🏝 新岛落成!已停泊在群岛南侧。')
+          }}
+        />
+      )}
       <Celebration show={celebrating} onDone={() => { setCelebrating(false); setScene('map') }} />
       {toast && <PixelToast>{toast}</PixelToast>}
       {tip && <PixelToast onClick={() => setTip(null)}>{tip}</PixelToast>}

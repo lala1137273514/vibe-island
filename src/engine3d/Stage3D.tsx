@@ -10,12 +10,12 @@ import { IslandScene, type IslandSceneProps } from './IslandScene'
 
 export interface Stage3DProps {
   mode: 'world' | 'island'
-  world: {
+  world?: {
     islands: WorldIslandSpec[]
     onEnter: (id: string) => void
     onLockedClick: () => void
   }
-  island: IslandSceneProps | null
+  island?: IslandSceneProps | null
 }
 
 // 切场景时把相机飞到预设位,抵达后交还轨道控制
@@ -38,7 +38,7 @@ export default function Stage3D({ mode, world, island }: Stage3DProps) {
       <fog attach="fog" args={['#2e5a8a', 70, 150]} />
       <ambientLight intensity={0.75} />
       <directionalLight position={[24, 32, 12]} intensity={2.2} color="#fff4d6" />
-      {mode === 'world'
+      {mode === 'world' && world
         ? <WorldScene islands={world.islands} onEnter={world.onEnter} onLockedClick={world.onLockedClick} />
         : island && <IslandScene {...island} />}
       <CameraLerp key={mode + (island?.def.id ?? '')} to={mode === 'world' ? [0, 20, 34] : [0, 16, 30]} />
