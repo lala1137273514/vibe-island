@@ -11,3 +11,93 @@ img,canvas{image-rendering:pixelated;}
 .pixel-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--c-ink);}
 /* 正文(非标题)允许普通中文字体,避免中文像素字版权/糊 */
 .body-text{font-family:system-ui,"Microsoft YaHei",sans-serif;line-height:1.7;}
+
+/* ====== 场景容器 ====== */
+.scene{position:relative;width:100%;height:100%;overflow:hidden;}
+/* 海面:纯 CSS 像素波纹(无素材回退态即完整观感) */
+.sea-bg{background:
+  repeating-linear-gradient(0deg,transparent 0 14px,rgba(255,255,255,.06) 14px 16px),
+  repeating-linear-gradient(90deg,transparent 0 30px,rgba(255,255,255,.04) 30px 32px),
+  linear-gradient(180deg,var(--c-sea) 0%,var(--c-sea-dark) 100%);}
+/* 岛面:草地 + 像素栅格 */
+.grass-bg{background:
+  repeating-linear-gradient(0deg,transparent 0 15px,rgba(0,0,0,.05) 15px 16px),
+  repeating-linear-gradient(90deg,transparent 0 15px,rgba(0,0,0,.05) 15px 16px),
+  linear-gradient(180deg,var(--c-grass) 0%,var(--c-grass-dark) 100%);}
+
+/* ====== 大地图岛屿卡片 ====== */
+.island-card{position:relative;background:var(--c-grass);border:4px solid var(--c-ink);
+  box-shadow:0 6px 0 var(--c-grass-dark),6px 6px 0 rgba(0,0,0,.3);
+  padding:24px 16px;cursor:pointer;text-align:center;min-width:180px;}
+.island-card:hover{transform:translateY(-2px);}
+.island-card.locked{cursor:not-allowed;filter:grayscale(.4);}
+/* 云雾遮罩(纯 CSS) */
+.cloud-mask{position:absolute;inset:-8px;display:flex;align-items:center;justify-content:center;
+  font-size:28px;background:
+  radial-gradient(ellipse 60px 36px at 20% 30%,rgba(244,236,214,.95) 60%,transparent 61%),
+  radial-gradient(ellipse 80px 44px at 60% 20%,rgba(244,236,214,.92) 60%,transparent 61%),
+  radial-gradient(ellipse 70px 40px at 80% 60%,rgba(244,236,214,.95) 60%,transparent 61%),
+  radial-gradient(ellipse 90px 48px at 35% 70%,rgba(244,236,214,.92) 60%,transparent 61%),
+  rgba(244,236,214,.65);}
+
+/* ====== 节点标记三态 ====== */
+.node-marker{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  border:3px solid var(--c-ink);background:var(--c-cream);
+  box-shadow:3px 3px 0 rgba(0,0,0,.35);user-select:none;}
+.node-marker.locked{background:#9a9a8e;color:#555;cursor:not-allowed;}
+.node-marker.available{background:var(--c-gold);cursor:pointer;animation:bounce 1s infinite;}
+.node-marker.done{background:var(--c-grass);color:#fff;cursor:default;}
+.node-marker.treasure{border-style:dashed;background:var(--c-wood);cursor:pointer;}
+.node-marker.treasure.done{background:var(--c-sand);cursor:default;animation:none;}
+.node-label{position:absolute;top:105%;left:50%;transform:translateX(-50%);
+  white-space:nowrap;font-size:10px;background:rgba(58,42,26,.85);color:var(--c-cream);
+  padding:2px 6px;}
+@keyframes bounce{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-50%,-62%)}}
+
+/* ====== 像素小人(纯 CSS 方块人) ====== */
+.character{position:absolute;width:24px;height:32px;transform:translate(-50%,-90%);
+  transition:left .8s steps(8), top .8s steps(8);z-index:5;pointer-events:none;}
+.character .head{width:14px;height:10px;margin:0 auto;background:#e8b88a;border:2px solid var(--c-ink);}
+.character .body{width:18px;height:12px;margin:-2px auto 0;background:#c0392b;border:2px solid var(--c-ink);}
+.character .legs{width:12px;height:6px;margin:-2px auto 0;background:#2d4a7a;border:2px solid var(--c-ink);}
+
+/* ====== HUD ====== */
+.hud{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;gap:16px;align-items:center;
+  background:rgba(58,42,26,.92);color:var(--c-cream);padding:8px 16px;
+  border-bottom:3px solid var(--c-ink);font-size:12px;}
+.hud .spacer{flex:1}
+.progressbar{width:160px;height:14px;border:2px solid var(--c-cream);background:#222;}
+.progressbar>div{height:100%;background:var(--c-gold);transition:width .4s;}
+
+/* ====== 弹窗 ====== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:30;
+  display:flex;align-items:center;justify-content:center;}
+.node-panel{width:min(560px,92vw);max-height:86vh;overflow:auto;}
+.node-panel h2{font-size:14px;margin:0 0 12px;}
+.learn-card{min-height:140px;}
+.panel-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;}
+
+/* ====== 成就墙 ====== */
+.shelf{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.trophy{border:3px solid var(--c-ink);padding:10px;text-align:center;font-size:11px;background:var(--c-gold);}
+.trophy.locked{background:#9a9a8e;color:#555;filter:grayscale(1);}
+
+/* ====== 任务组件 ====== */
+.option-btn{display:block;width:100%;text-align:left;margin:6px 0;}
+.option-btn.correct{background:var(--c-grass);color:#fff;}
+.option-btn.wrong{background:#c0392b;color:#fff;}
+.match-col{display:inline-flex;flex-direction:column;gap:6px;vertical-align:top;margin-right:16px;}
+.fill-input{font-family:inherit;font-size:12px;border:3px solid var(--c-ink);padding:6px;margin:4px;}
+.feedback-ok{color:var(--c-grass-dark);font-weight:bold;}
+.feedback-bad{color:#c0392b;font-weight:bold;}
+
+/* ====== 通关烟花(纯 CSS) ====== */
+.firework{position:fixed;width:6px;height:6px;z-index:40;animation:explode 1.2s ease-out forwards;}
+@keyframes explode{
+  0%{transform:translate(0,0) scale(1);opacity:1}
+  100%{transform:translate(var(--dx),var(--dy)) scale(.3);opacity:0}}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:50;
+  background:var(--c-ink);color:var(--c-gold);padding:10px 18px;border:3px solid var(--c-gold);
+  font-size:12px;animation:toast-in .3s;}
+@keyframes toast-in{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%)}}

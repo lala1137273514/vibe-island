@@ -655,25 +655,26 @@ git commit -m "feat: origin island content from easy-vibe stage 1"
 - Create: `scripts/fetch-assets.mjs`
 - Modify: `package.json`(加 `assets` 脚本)、`src/styles/pixel.css`(补组件类)
 
-- [ ] **Step 1: 写素材拉取脚本(失败容错)**
+- [x] **Step 1: 写素材拉取脚本(失败容错)**
 
 `scripts/fetch-assets.mjs`:从 Kenney CC0 包下载到 `public/assets/`(地块、小人、宝箱、UI)。**任何下载失败 → 打印警告并退出 0(不报错),由组件走 CSS 回退**。脚本须:逐个 URL try/catch;成功写文件,失败记日志;最终始终 `process.exit(0)`。在文件头注释列出所用 Kenney 包名与 CC0 来源。
 `package.json` 加 `"assets": "node scripts/fetch-assets.mjs"`。
 
-- [ ] **Step 2: 跑一次素材脚本**
+- [x] **Step 2: 跑一次素材脚本**(实测全部 404 → 正确走 CSS 回退并 exit 0)
 
 Run: `pnpm assets`
 Expected: 要么素材进 `public/assets/`,要么打印「下载失败,使用 CSS 回退」并正常退出。两种都可接受。
 
-- [ ] **Step 3: 约定素材使用与回退**
+- [x] **Step 3: 约定素材使用与回退**
 
 在 `pixel.css` 增加:节点标记三态样式(locked 灰+🔒、available 高亮跳动、done 打勾)、宝箱、云雾遮罩、HUD、对话框。**所有用到图片的地方都设 CSS 背景色/边框回退**,即 `public/assets` 为空时仍是完整像素观感(纯色块+边框+emoji)。
 
-- [ ] **Step 4: 提交**
+- [x] **Step 4: 提交**
 ```bash
 git add scripts/fetch-assets.mjs package.json src/styles/pixel.css
 git commit -m "feat: asset fetch script with CSS fallback + component styles"
 ```
+> 执行备注:Task 7 与 Task 6 无依赖,因 easy-vibe 内容抓取(后台 agent)尚在进行,先完成并提交 Task 7,Task 6 随后提交。
 
 ---
 
