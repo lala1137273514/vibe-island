@@ -28,9 +28,9 @@ const solveTrueFalse = async (answers: boolean[]) => {
 it('完整通关流程覆盖验收标准 ①-⑨', async () => {
   const { unmount } = render(<App />)
 
-  // ① 首屏大地图:起源岛可点,其余云雾🔒;锁定岛点击不进入
-  expect(screen.getByText('起源岛')).toBeInTheDocument()
-  expect(screen.getAllByText('🔒').length).toBeGreaterThanOrEqual(2)
+  // ① 首屏大地图:起源岛可点,其余 🔒;锁定岛点击不进入(3D 在 jsdom 不渲染,经码头 Dock 验证)
+  expect(screen.getByRole('button', { name: '起源岛' })).toBeInTheDocument()
+  expect(screen.getAllByText(/🔒/).length).toBeGreaterThanOrEqual(2)
   await user.click(screen.getByRole('button', { name: '进阶之岛' }))
   expect(screen.getByText('完成上一海域后解锁')).toBeInTheDocument()
   expect(screen.queryByRole('button', { name: '学习地图' })).not.toBeInTheDocument()

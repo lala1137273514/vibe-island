@@ -156,6 +156,22 @@ img,canvas{image-rendering:pixelated;}
 .dialog-free-input{width:70%;}
 .forge-live-input{width:100%;font-family:inherit;}
 
+/* ====== 3D 大地图 ====== */
+.world3d-wrap{position:relative;}
+.stage3d-canvas{position:absolute !important;inset:0;}
+.loading-note,.webgl-note{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);
+  font-size:13px;z-index:5;}
+.island-3d-label{font-family:'Press Start 2P',system-ui,"Microsoft YaHei",sans-serif;
+  font-size:20px;color:var(--c-cream);text-shadow:2px 2px 0 var(--c-ink);white-space:nowrap;}
+.island-3d-label.locked{opacity:.7;}
+.island-3d-play{color:var(--c-gold);}
+.island-3d-lock{font-size:40px;}
+.island-dock{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:10;
+  display:flex;gap:10px;background:rgba(58,42,26,.9);border:3px solid var(--c-ink);
+  padding:10px 14px;}
+.dock-btn{font-size:11px;}
+.dock-btn.locked{background:#9a9a8e;color:#555;}
+
 /* ====== 通关烟花(纯 CSS) ====== */
 .firework{position:fixed;width:6px;height:6px;z-index:40;animation:explode 1.2s ease-out forwards;}
 @keyframes explode{
