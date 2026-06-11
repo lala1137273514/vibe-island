@@ -2,7 +2,7 @@ export type NodeStatus = 'locked' | 'available' | 'done'
 export type Region = 'stage-1' | 'stage-2' | 'stage-3'
 export type TaskType =
   | 'quiz' | 'truefalse' | 'match' | 'fill-prompt'
-  | 'error-er' | 'npc-dialog'
+  | 'error-er' | 'npc-dialog' | 'prompt-forge'
 
 export interface LearnCard { title: string; body: string }
 
@@ -36,9 +36,23 @@ export interface NpcDialogTask {
   goal: { validNeeded: number; maxViolations: number }
 }
 
+// ===== 提示词锻造铺 =====
+export interface ForgeRound {
+  options: { text: string; effective: boolean; why: string; fragment: string }[]
+  // fragment:选中后拼进当前提示词展示的文本片段(有效项才有内容,无效项为空串)
+}
+export interface PromptForgeTask {
+  type: 'prompt-forge'
+  brief: string
+  basePrompt: string
+  forgeRounds: ForgeRound[]            // 3 轮,每轮 3 选 1
+  rubric: string[]                     // 实战模式 LLM 评分要点
+  exampleGood: string                  // 过关后展示的参考提示词(取自原文模板)
+}
+
 export type NodeTask =
   | QuizTask | TrueFalseTask | MatchTask | FillPromptTask
-  | ErrorErTask | NpcDialogTask
+  | ErrorErTask | NpcDialogTask | PromptForgeTask
 
 // 各任务对应的作答数据
 export type TaskAnswer =
@@ -48,6 +62,7 @@ export type TaskAnswer =
   | { type: 'fill-prompt'; values: string[] }
   | { type: 'error-er'; picks: number[][] }  // picks[case][step] = 该步首选下标
   | { type: 'npc-dialog'; picks: number[] }  // picks[round] = 选的问题卡下标
+  | { type: 'prompt-forge'; picks: number[] } // picks[round] = 选的锻打项下标
 
 export interface GameNode {
   id: string

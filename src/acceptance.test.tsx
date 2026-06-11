@@ -60,13 +60,13 @@ it('完整通关流程覆盖验收标准 ①-⑨', async () => {
   expect(screen.getByTestId('character')).toHaveStyle({ left: '32%' })
   expect(screen.getByText(/启程者/)).toBeInTheDocument()
 
-  // 主线 2:fill-prompt(一次全对 → 星星)
+  // 主线 2:提示词锻造铺(prompt-forge):三锤全中(一次全对 → 星星)
   await openNode('找到好点子')
   await readCardsAndStartChallenge()
-  await user.type(screen.getByLabelText('空1'), 'MVP')
-  await user.type(screen.getByLabelText('空2'), '10')
-  await user.click(screen.getByRole('button', { name: '提交' }))
-  expect(screen.getByText(/答对了/)).toBeInTheDocument()
+  await user.click(screen.getByRole('button', { name: /横切人群/ }))
+  await user.click(screen.getByRole('button', { name: /说出担忧,并要求规划 MVP/ }))
+  await user.click(screen.getByRole('button', { name: /设定验证指标/ }))
+  expect(screen.getByText(/锻出神器/)).toBeInTheDocument()
   await closePanel()
 
   // 主线 3:match
