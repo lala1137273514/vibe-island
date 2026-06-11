@@ -173,4 +173,11 @@ it('完整通关流程覆盖验收标准 ①-⑨', async () => {
   // HUD 与大地图各显示一处金币
   expect(screen.getAllByText('🪙 80').length).toBeGreaterThanOrEqual(1)
   expect(screen.getByText('起源岛 6/6')).toBeInTheDocument()
+
+  // Phase A 新增:⚙️ 设置面板可开;创造湾入口可开(未配 AI 时给接入指引)
+  await user.click(screen.getByRole('button', { name: '⚙️ 设置' }))
+  expect(screen.getByText(/接入 AI/)).toBeInTheDocument()
+  await user.click(screen.getByRole('button', { name: '关闭' }))
+  await user.click(screen.getByRole('button', { name: '创造湾' }))
+  expect(screen.getByText(/造岛需要 AI/)).toBeInTheDocument()
 }, 60000)

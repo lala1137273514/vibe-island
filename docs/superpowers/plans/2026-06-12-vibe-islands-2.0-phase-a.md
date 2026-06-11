@@ -58,20 +58,20 @@ src/
 
 **Files:** Modify `package.json`、`src/styles/tokens.css`
 
-- [ ] **Step 1:** 安装依赖:
+- [x] **Step 1:** 安装依赖:
 ```bash
 pnpm add three @react-three/fiber@^9 @react-three/drei@^10 @react-three/postprocessing simplex-noise zod
 pnpm add -D @types/three
 ```
-- [ ] **Step 2:** `tokens.css` `:root` 内追加 `--c-stone:#7a7a72;`。
-- [ ] **Step 3:** 验证:`pnpm test` 全绿、`pnpm build` 成功(新依赖未引用,仅确认安装无冲突)。
-- [ ] **Step 4:** 提交 `chore: add 3d/ai deps + stone token`。
+- [x] **Step 2:** `tokens.css` `:root` 内追加 `--c-stone:#7a7a72;`。
+- [x] **Step 3:** 验证:`pnpm test` 全绿、`pnpm build` 成功(新依赖未引用,仅确认安装无冲突)。
+- [x] **Step 4:** 提交 `chore: add 3d/ai deps + stone token`。
 
 ## Task 2: ui/ 像素组件库
 
 **Files:** Create `src/ui/PixelPanel.tsx`、`PixelButton.tsx`、`PixelDialog.tsx`、`PixelToast.tsx`、`ProgressBar.tsx`、`index.ts`;Modify 现有组件改用之。
 
-- [ ] **Step 1:** 实现五组件(薄封装现有 CSS 类,统一 API):
+- [x] **Step 1:** 实现五组件(薄封装现有 CSS 类,统一 API):
 ```tsx
 // PixelPanel.tsx
 export function PixelPanel({ className = '', children, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
@@ -100,16 +100,16 @@ export function ProgressBar({ ratio, label }: { ratio: number; label?: string })
 }
 // index.ts 统一导出
 ```
-- [ ] **Step 2:** 把 `NodePanel`/`AchievementShelf`/`HUD`/`WorldMap`/`Celebration`/4 个 basic 任务组件里的裸 `className="pixel-btn"`、`pixel-panel`、`modal-overlay`、`toast`、`progressbar` 用法替换为组件库调用(行为不变)。
-- [ ] **Step 3:** `pnpm test` 全绿(既有 31 测试不改断言)。
-- [ ] **Step 4:** 提交 `refactor: extract pixel ui kit`。
+- [x] **Step 2:** 把 `NodePanel`/`AchievementShelf`/`HUD`/`WorldMap`/`Celebration`/4 个 basic 任务组件里的裸 `className="pixel-btn"`、`pixel-panel`、`modal-overlay`、`toast`、`progressbar` 用法替换为组件库调用(行为不变)。
+- [x] **Step 3:** `pnpm test` 全绿(既有 31 测试不改断言)。
+- [x] **Step 4:** 提交 `refactor: extract pixel ui kit`。
 
 ## Task 3: game/ 纯逻辑域重组 + 任务注册表(TDD)
 
 **Files:** Move `src/state/gameLogic.ts→src/game/gameLogic.ts`、`src/content/achievements.ts→src/game/achievements.ts`(测试同步移动);Create `src/game/taskRegistry.ts`、`taskRegistry.test.ts`;Modify 全部 import 路径。
 
-- [ ] **Step 1:** `git mv` 迁移四文件,更新所有 import(`useGameState`、各任务组件、AchievementShelf、App、测试)。`pnpm test` 全绿。
-- [ ] **Step 2:** 写注册表失败测试:
+- [x] **Step 1:** `git mv` 迁移四文件,更新所有 import(`useGameState`、各任务组件、AchievementShelf、App、测试)。`pnpm test` 全绿。
+- [x] **Step 2:** 写注册表失败测试:
 ```ts
 import { it, expect } from 'vitest'
 import { registerTask, getTaskPlugin, listTaskTypes } from './taskRegistry'
@@ -122,7 +122,7 @@ it('注册后可按 type 取回,重复注册报错,未注册取用报错', () =>
   expect(() => getTaskPlugin('match')).toThrow(/未注册/)
 })
 ```
-- [ ] **Step 3:** 跑红 → 实现:
+- [x] **Step 3:** 跑红 → 实现:
 ```ts
 import type { ComponentType } from 'react'
 import type { NodeTask, TaskType } from '../content/types'
@@ -144,13 +144,13 @@ export function listTaskTypes(): TaskType[] { return [...plugins.keys()] }
 export function resetRegistry() { plugins.clear() }   // 仅测试用
 ```
 (`Component` 的 task 形参用插件内部窄化;测试里 beforeEach `resetRegistry()`。)
-- [ ] **Step 4:** 跑绿 → 提交 `refactor: game domain + task registry`。
+- [x] **Step 4:** 跑绿 → 提交 `refactor: game domain + task registry`。
 
 ## Task 4: 玩法「报错急诊室」error-er(TDD)
 
 **Files:** Modify `src/content/types.ts`;Create `src/tasks/error-er/scoring.ts`、`scoring.test.ts`、`ErrorErTask.tsx`;Modify `src/content/stage1.ts`(origin-t4 换玩法)。
 
-- [ ] **Step 1:** types.ts 增加(并入 `NodeTask`/`TaskAnswer` 联合、`TaskType`):
+- [x] **Step 1:** types.ts 增加(并入 `NodeTask`/`TaskAnswer` 联合、`TaskType`):
 ```ts
 export interface ErrorStep {
   prompt: string
@@ -160,7 +160,7 @@ export interface ErrorCase { symptom: string; steps: ErrorStep[] }
 export interface ErrorErTask { type: 'error-er'; intro: string; cases: ErrorCase[] }
 // TaskAnswer 增:{ type: 'error-er'; picks: number[][] }   // picks[case][step] = 选项下标
 ```
-- [ ] **Step 2:** 失败测试(`scoring.test.ts`):
+- [x] **Step 2:** 失败测试(`scoring.test.ts`):
 ```ts
 import { it, expect } from 'vitest'
 import { scoreErrorRun } from './scoring'
@@ -177,16 +177,16 @@ it('错满 3 步判失败', () => {
 })
 ```
 判定语义:`picks` 是玩家每步**最终选择**前的错误次数由组件累计——简化为:`picks[i][j]` 为该步首选下标;错误选择计 1 mistake 且组件强制重选直至正确;`pass = mistakes < 3`,`perfect = mistakes === 0`。
-- [ ] **Step 3:** 跑红 → 实现 `scoring.ts`(纯函数,按上述语义统计 mistakes)→ 跑绿。
-- [ ] **Step 4:** 实现 `ErrorErTask.tsx`:急诊室面板(病床 emoji 🤖 病人 + 症状卡 + 步骤选项按钮);选错显示 feedback(扣 1 HP,❤️×3 显示),选对进下一步;全 case 完成调 `onResult(pass)`(perfect 经 TaskRenderer 首试机制自然映射 star)。冒烟测试并入 Step 5 文件:渲染症状文案、点正确路径到底触发 `onResult(true)`。
-- [ ] **Step 5:** `stage1.ts` origin-t4 的 task 换为 error-er:**内容取自 scratch 笔记 appendix-b-common-errors 节**——2 个病例:①页面白屏(正确路径:先描述+截图问AI→AI 要更多信息→Console 截红字);②数据保存失败(先问AI→Network 面板重操作截请求/返回)。错误选项的 feedback 引用原文要点(如「不要急着打开 F12」)。learn 卡保持不变。
-- [ ] **Step 6:** `pnpm test` 全绿 → 提交 `feat: error-er gameplay (ER triage)`。
+- [x] **Step 3:** 跑红 → 实现 `scoring.ts`(纯函数,按上述语义统计 mistakes)→ 跑绿。
+- [x] **Step 4:** 实现 `ErrorErTask.tsx`:急诊室面板(病床 emoji 🤖 病人 + 症状卡 + 步骤选项按钮);选错显示 feedback(扣 1 HP,❤️×3 显示),选对进下一步;全 case 完成调 `onResult(pass)`(perfect 经 TaskRenderer 首试机制自然映射 star)。冒烟测试并入 Step 5 文件:渲染症状文案、点正确路径到底触发 `onResult(true)`。
+- [x] **Step 5:** `stage1.ts` origin-t4 的 task 换为 error-er:**内容取自 scratch 笔记 appendix-b-common-errors 节**——2 个病例:①页面白屏(正确路径:先描述+截图问AI→AI 要更多信息→Console 截红字);②数据保存失败(先问AI→Network 面板重操作截请求/返回)。错误选项的 feedback 引用原文要点(如「不要急着打开 F12」)。learn 卡保持不变。
+- [x] **Step 6:** `pnpm test` 全绿 → 提交 `feat: error-er gameplay (ER triage)`。
 
 ## Task 5: 玩法「老妈访谈屋」npc-dialog 卡牌模式(TDD)
 
 **Files:** Modify `types.ts`;Create `src/tasks/npc-dialog/scoring.ts`、`scoring.test.ts`、`NpcDialogTask.tsx`;Modify `stage1.ts`(origin-t2)。
 
-- [ ] **Step 1:** types:
+- [x] **Step 1:** types:
 ```ts
 export interface DialogCard { question: string; valid: boolean; reply: string; lesson: string }
 export interface NpcDialogTask {
@@ -196,17 +196,17 @@ export interface NpcDialogTask {
 }
 // TaskAnswer 增:{ type: 'npc-dialog'; picks: number[] }
 ```
-- [ ] **Step 2:** 失败测试:`evalDialogPicks(task, picks)` → `{ collected, violations, done(pass|fail|ongoing) }`;用 4 轮卡(valid 分布 [真,假,真,真])断言:选 3 valid → pass;选 3 invalid → fail;中途 → ongoing。
-- [ ] **Step 3:** 红 → 实现纯函数 → 绿。
-- [ ] **Step 4:** `NpcDialogTask.tsx`:像素对话屋(NPC 头像 emoji 👵 + 台词气泡 + 3 张问题卡按钮);选卡后展示 NPC 回应 + lesson 点评(有效情报 +📋,违规 +⚠️);进度条「情报 x/3,违规 y/3」;pass→`onResult(true)`,fail→`onResult(false)` 并可重开。**预留**:面板底部「✍️ 自由提问(需接入 AI)」入口,Task 9 启用。冒烟:渲染 scenario、选有效卡推进、集满 3 触发 onResult(true)。
-- [ ] **Step 5:** origin-t2 内容:**取自 scratch 笔记 appendix-mom-test 节的问废 vs 有价值对照表**——scenario「你想做产后妈妈恢复 APP,去验证需求」;5 轮卡,有效卡如「最近一次遇到这个问题是什么时候?」「你现在怎么处理?」「为此花过钱吗?」,违规卡如「你觉得我这个想法怎么样?」「如果有你会用吗?」;reply/lesson 按原文规则写(夸奖=礼貌不是数据等)。
-- [ ] **Step 6:** 全绿 → 提交 `feat: npc-dialog gameplay (Mom Test interview)`。
+- [x] **Step 2:** 失败测试:`evalDialogPicks(task, picks)` → `{ collected, violations, done(pass|fail|ongoing) }`;用 4 轮卡(valid 分布 [真,假,真,真])断言:选 3 valid → pass;选 3 invalid → fail;中途 → ongoing。
+- [x] **Step 3:** 红 → 实现纯函数 → 绿。
+- [x] **Step 4:** `NpcDialogTask.tsx`:像素对话屋(NPC 头像 emoji 👵 + 台词气泡 + 3 张问题卡按钮);选卡后展示 NPC 回应 + lesson 点评(有效情报 +📋,违规 +⚠️);进度条「情报 x/3,违规 y/3」;pass→`onResult(true)`,fail→`onResult(false)` 并可重开。**预留**:面板底部「✍️ 自由提问(需接入 AI)」入口,Task 9 启用。冒烟:渲染 scenario、选有效卡推进、集满 3 触发 onResult(true)。
+- [x] **Step 5:** origin-t2 内容:**取自 scratch 笔记 appendix-mom-test 节的问废 vs 有价值对照表**——scenario「你想做产后妈妈恢复 APP,去验证需求」;5 轮卡,有效卡如「最近一次遇到这个问题是什么时候?」「你现在怎么处理?」「为此花过钱吗?」,违规卡如「你觉得我这个想法怎么样?」「如果有你会用吗?」;reply/lesson 按原文规则写(夸奖=礼貌不是数据等)。
+- [x] **Step 6:** 全绿 → 提交 `feat: npc-dialog gameplay (Mom Test interview)`。
 
 ## Task 6: 玩法「提示词锻造铺」prompt-forge 基础模式(TDD)
 
 **Files:** Modify `types.ts`;Create `src/tasks/prompt-forge/scoring.ts`、`scoring.test.ts`、`PromptForgeTask.tsx`;Modify `stage1.ts`(origin-2)。
 
-- [ ] **Step 1:** types:
+- [x] **Step 1:** types:
 ```ts
 export interface ForgeRound { options: { text: string; effective: boolean; why: string }[] }
 export interface PromptForgeTask {
@@ -217,17 +217,17 @@ export interface PromptForgeTask {
 }
 // TaskAnswer 增:{ type: 'prompt-forge'; picks: number[] }
 ```
-- [ ] **Step 2:** 失败测试:`scoreForge(task, picks)` → `{ level, pass, perfect }`;level=有效选择数;`pass = level >= 2`,`perfect = level === 3`。
-- [ ] **Step 3:** 红 → 实现 → 绿。
-- [ ] **Step 4:** `PromptForgeTask.tsx`:铁匠铺面板——当前提示词展示区(生铁→精铁→神器,炉火 emoji 随 level 变 🔥🔥🔥),每轮 3 个锻打选项;选有效项提示词文本实时变长变好(把选项文本拼进 basePrompt 展示);3 轮完按 scoreForge 调 `onResult(pass)`;过关展示 exampleGood 对照。**预留**「⚒️ 实战模式(需接入 AI)」入口。冒烟:3 轮全选有效 → onResult(true)。
-- [ ] **Step 5:** origin-2 内容:**取自 scratch 笔记 finding-great-idea 节**——brief「把模糊点子磨成能发给 AI 的提示词」;basePrompt「帮我做一个健身 APP」;3 轮有效项=加目标人群(产后妈妈)/加担忧与验证(MVP+付费验证指标)/加输出格式(行动计划),干扰项=「要求更华丽的辞藻」「让 AI 夸我点子好」等违背原文方法论的选项;exampleGood 用原文模板「我想做一个[产品概念],但我担心[担忧]。请帮我:1.规划一个 MVP…4.设定验证指标」;rubric=['说清产品概念与目标人群','说出担忧/风险','要求 MVP 规划','要求验证指标']。
-- [ ] **Step 6:** 全绿 → 提交 `feat: prompt-forge gameplay (smithy)`。
+- [x] **Step 2:** 失败测试:`scoreForge(task, picks)` → `{ level, pass, perfect }`;level=有效选择数;`pass = level >= 2`,`perfect = level === 3`。
+- [x] **Step 3:** 红 → 实现 → 绿。
+- [x] **Step 4:** `PromptForgeTask.tsx`:铁匠铺面板——当前提示词展示区(生铁→精铁→神器,炉火 emoji 随 level 变 🔥🔥🔥),每轮 3 个锻打选项;选有效项提示词文本实时变长变好(把选项文本拼进 basePrompt 展示);3 轮完按 scoreForge 调 `onResult(pass)`;过关展示 exampleGood 对照。**预留**「⚒️ 实战模式(需接入 AI)」入口。冒烟:3 轮全选有效 → onResult(true)。
+- [x] **Step 5:** origin-2 内容:**取自 scratch 笔记 finding-great-idea 节**——brief「把模糊点子磨成能发给 AI 的提示词」;basePrompt「帮我做一个健身 APP」;3 轮有效项=加目标人群(产后妈妈)/加担忧与验证(MVP+付费验证指标)/加输出格式(行动计划),干扰项=「要求更华丽的辞藻」「让 AI 夸我点子好」等违背原文方法论的选项;exampleGood 用原文模板「我想做一个[产品概念],但我担心[担忧]。请帮我:1.规划一个 MVP…4.设定验证指标」;rubric=['说清产品概念与目标人群','说出担忧/风险','要求 MVP 规划','要求验证指标']。
+- [x] **Step 6:** 全绿 → 提交 `feat: prompt-forge gameplay (smithy)`。
 
 ## Task 7: 玩法「原型积木台」proto-builder(TDD)
 
 **Files:** Modify `types.ts`;Create `src/tasks/proto-builder/scoring.ts`、`scoring.test.ts`、`ProtoBuilderTask.tsx`;Modify `stage1.ts`(origin-4)。
 
-- [ ] **Step 1:** types:
+- [x] **Step 1:** types:
 ```ts
 export interface ProtoBlock { id: string; label: string; emoji: string; distractor?: boolean }
 export interface ProtoSlot { id: string; label: string; accepts: string[] }   // accepts=该槽必须集齐的 block id
@@ -236,31 +236,31 @@ export interface ProtoBuilderTask {
 }
 // TaskAnswer 增:{ type: 'proto-builder'; placement: Record<string, string[]> }  // slotId→放入的 blockId
 ```
-- [ ] **Step 2:** 失败测试:`scoreProto(task, placement)` → `{ pass, perfect, missing, extras }`;pass=每槽 accepts 全命中;perfect=pass 且未放任何 distractor;断言三例(全对/缺块/放了干扰块)。
-- [ ] **Step 3:** 红 → 实现 → 绿。
-- [ ] **Step 4:** `ProtoBuilderTask.tsx`:需求卡(brief)+ 页面线框(slots 纵向排布的虚线槽)+ 底部积木栏;交互用**点选-放置**(点积木选中→点槽放入;槽内积木可点移除)——比拖拽简单且触屏/键盘可达,jsdom 可测;「检查原型」按钮调 scoreProto → onResult;未过显示 missing/extras 像素批注。冒烟:正确放置全部必选块 → onResult(true)。
-- [ ] **Step 5:** origin-4 内容:**取自 scratch 笔记 building-prototype 节电商素材工作台案例**——brief 引用「批量做图做文案太费劲+好方案存不下来」两痛点;slots:顶栏(accepts:[标题栏])、输入区(accepts:[商品信息表单,图片上传])、操作区(accepts:[批量生成按钮])、结果区(accepts:[图文草稿列表])、侧栏(accepts:[模板库]);blocks 含上述必选块+干扰块(会员充值弹窗、3D 商品展厅、积分商城——原文「大而全没人用」反例);learn 卡不变。
-- [ ] **Step 6:** 全绿 → 提交 `feat: proto-builder gameplay (blueprint bench)`。
+- [x] **Step 2:** 失败测试:`scoreProto(task, placement)` → `{ pass, perfect, missing, extras }`;pass=每槽 accepts 全命中;perfect=pass 且未放任何 distractor;断言三例(全对/缺块/放了干扰块)。
+- [x] **Step 3:** 红 → 实现 → 绿。
+- [x] **Step 4:** `ProtoBuilderTask.tsx`:需求卡(brief)+ 页面线框(slots 纵向排布的虚线槽)+ 底部积木栏;交互用**点选-放置**(点积木选中→点槽放入;槽内积木可点移除)——比拖拽简单且触屏/键盘可达,jsdom 可测;「检查原型」按钮调 scoreProto → onResult;未过显示 missing/extras 像素批注。冒烟:正确放置全部必选块 → onResult(true)。
+- [x] **Step 5:** origin-4 内容:**取自 scratch 笔记 building-prototype 节电商素材工作台案例**——brief 引用「批量做图做文案太费劲+好方案存不下来」两痛点;slots:顶栏(accepts:[标题栏])、输入区(accepts:[商品信息表单,图片上传])、操作区(accepts:[批量生成按钮])、结果区(accepts:[图文草稿列表])、侧栏(accepts:[模板库]);blocks 含上述必选块+干扰块(会员充值弹窗、3D 商品展厅、积分商城——原文「大而全没人用」反例);learn 卡不变。
+- [x] **Step 6:** 全绿 → 提交 `feat: proto-builder gameplay (blueprint bench)`。
 
 ## Task 8: 注册表接入与 basic 玩法归位
 
 **Files:** Move 4 个 basic 任务组件 → `src/tasks/basic/`;Create `src/tasks/registerAll.ts`;Modify `src/tasks/TaskRenderer.tsx`、`src/main.tsx`。
 
-- [ ] **Step 1:** `git mv` QuizTask/TrueFalseTask/MatchTask/FillPromptTask(+tasks.test.tsx)到 `src/tasks/basic/`,改 import。
-- [ ] **Step 2:** `registerAll.ts`:对 8 种 type 各调一次 `registerTask`(幂等防 HMR:已注册则跳过——用 `listTaskTypes().includes(type)` 守卫,这是模块加载幂等性不是兜底);`main.tsx` 顶部 `import './tasks/registerAll'`。
-- [ ] **Step 3:** `TaskRenderer.tsx` 改为注册表分发(保留 firstTry→star 逻辑):
+- [x] **Step 1:** `git mv` QuizTask/TrueFalseTask/MatchTask/FillPromptTask(+tasks.test.tsx)到 `src/tasks/basic/`,改 import。
+- [x] **Step 2:** `registerAll.ts`:对 8 种 type 各调一次 `registerTask`(幂等防 HMR:已注册则跳过——用 `listTaskTypes().includes(type)` 守卫,这是模块加载幂等性不是兜底);`main.tsx` 顶部 `import './tasks/registerAll'`。
+- [x] **Step 3:** `TaskRenderer.tsx` 改为注册表分发(保留 firstTry→star 逻辑):
 ```tsx
 const plugin = getTaskPlugin(task.type)
 return <plugin.Component task={task as never} onResult={handleResult} />
 ```
 测试文件顶部同样 import registerAll。
-- [ ] **Step 4:** `pnpm test` 全绿、`tsc --noEmit` 无错 → 提交 `refactor: registry-driven task rendering`。
+- [x] **Step 4:** `pnpm test` 全绿、`tsc --noEmit` 无错 → 提交 `refactor: registry-driven task rendering`。
 
 ## Task 9: AiGateway(BYOK)+ 设置面板 + 两玩法 AI 模式
 
 **Files:** Create `src/services/aiGateway.ts`、`aiGateway.test.ts`、`src/components/AiSettings.tsx`;Modify `NpcDialogTask.tsx`、`PromptForgeTask.tsx`、`HUD.tsx`(设置入口 ⚙️)。
 
-- [ ] **Step 1:** 失败测试(配置纯逻辑,fetch 用 vi.stubGlobal mock):
+- [x] **Step 1:** 失败测试(配置纯逻辑,fetch 用 vi.stubGlobal mock):
 ```ts
 import { it, expect, vi, beforeEach } from 'vitest'
 import { loadAiConfig, saveAiConfig, hasAiConfig, chat } from './aiGateway'
@@ -279,28 +279,28 @@ it('chat 拼 OpenAI 兼容请求并取回内容;HTTP 错误原样抛出', async 
   await expect(chat([{ role:'user', content:'hi' }])).rejects.toThrow(/401/)
 })
 ```
-- [ ] **Step 2:** 红 → 实现:key `vibe-islands-ai`;`chat()` POST `${baseURL}/chat/completions`,headers Bearer,body `{model, messages, temperature?}`;非 2xx `throw new Error(\`AI 调用失败 HTTP ${status}: ${正文摘要}\`)`;无配置调用 chat 直接 throw「未配置 AI」→ 绿。
-- [ ] **Step 3:** `AiSettings.tsx`(PixelDialog):三输入框(baseURL 预填 `https://api.deepseek.com`、apiKey、model 预填 `deepseek-chat`)+「测试连接」按钮(发一条 `ping` 消息,成功✅/失败原样显示错误)+ DeepSeek 注册指引一行(呼应教程第 5 章);HUD 加 ⚙️ 按钮开关。冒烟:填表保存后 localStorage 有值。
-- [ ] **Step 4:** 接入玩法 AI 模式:
+- [x] **Step 2:** 红 → 实现:key `vibe-islands-ai`;`chat()` POST `${baseURL}/chat/completions`,headers Bearer,body `{model, messages, temperature?}`;非 2xx `throw new Error(\`AI 调用失败 HTTP ${status}: ${正文摘要}\`)`;无配置调用 chat 直接 throw「未配置 AI」→ 绿。
+- [x] **Step 3:** `AiSettings.tsx`(PixelDialog):三输入框(baseURL 预填 `https://api.deepseek.com`、apiKey、model 预填 `deepseek-chat`)+「测试连接」按钮(发一条 `ping` 消息,成功✅/失败原样显示错误)+ DeepSeek 注册指引一行(呼应教程第 5 章);HUD 加 ⚙️ 按钮开关。冒烟:填表保存后 localStorage 有值。
+- [x] **Step 4:** 接入玩法 AI 模式:
   - NpcDialog 自由模式:`hasAiConfig()` 时显示输入框;玩家提问 → `chat` 两段式:系统提示词让 LLM ①以「老妈」人设回答 ②末行输出 `JUDGE: valid|invalid`(按 Mom Test 规则判该问题);解析尾行计入 collected/violations,解析失败则把原始输出展示并提示重试(不猜测判定)。
   - PromptForge 实战模式:玩家写完整提示词 → `chat` 让 LLM 按 task.rubric 逐条打分,末行输出 `SCORE: n/5`;≥3 过关、=5 给星;解析失败同上策略。
   - 两处无配置时显示「先到 ⚙️ 设置接入 AI(免费 DeepSeek Key 也行)」。
-- [ ] **Step 5:** 全绿 → 提交 `feat: BYOK ai gateway + settings + ai modes`。
+- [x] **Step 5:** 全绿 → 提交 `feat: BYOK ai gateway + settings + ai modes`。
 
 ## Task 10: SaveService(多岛存档)
 
 **Files:** Create `src/services/saveService.ts`、`saveService.test.ts`;Modify `src/state/storage.ts`、`useGameState.ts`。
 
-- [ ] **Step 1:** 失败测试:`LocalSaveService`:`loadSave('origin')` 用 legacy key `vibe-islands-save`(兼容 1.0 存档);`loadSave('my-isle')` 用 `vibe-islands-save:my-isle`;`listCustomIslands/saveCustomIsland/deleteCustomIsland` 读写 `vibe-islands-custom`(`{ def: IslandDef; seed: number; palette: string; createdAt: string }[]`,按 def.id 去重覆盖)。
-- [ ] **Step 2:** 红 → 实现(接口 + Local 实现;`storage.ts` 改为接受 key 参数的底层读写)→ 绿。
-- [ ] **Step 3:** `useGameState(island)` 改用 saveService 按 `island.id` 读写;origin 行为与 1.0 完全一致(回归:既有 hook 测试不改断言,仅 import 调整)。
-- [ ] **Step 4:** 全绿 → 提交 `feat: per-island save service`。
+- [x] **Step 1:** 失败测试:`LocalSaveService`:`loadSave('origin')` 用 legacy key `vibe-islands-save`(兼容 1.0 存档);`loadSave('my-isle')` 用 `vibe-islands-save:my-isle`;`listCustomIslands/saveCustomIsland/deleteCustomIsland` 读写 `vibe-islands-custom`(`{ def: IslandDef; seed: number; palette: string; createdAt: string }[]`,按 def.id 去重覆盖)。
+- [x] **Step 2:** 红 → 实现(接口 + Local 实现;`storage.ts` 改为接受 key 参数的底层读写)→ 绿。
+- [x] **Step 3:** `useGameState(island)` 改用 saveService 按 `island.id` 读写;origin 行为与 1.0 完全一致(回归:既有 hook 测试不改断言,仅 import 调整)。
+- [x] **Step 4:** 全绿 → 提交 `feat: per-island save service`。
 
 ## Task 11: 体素岛生成器 voxelGen(TDD)
 
 **Files:** Create `src/engine3d/voxelGen.ts`、`voxelGen.test.ts`。
 
-- [ ] **Step 1:** 失败测试:
+- [x] **Step 1:** 失败测试:
 ```ts
 import { it, expect } from 'vitest'
 import { generateIsland } from './voxelGen'
@@ -318,8 +318,8 @@ it('结构:有体素;顶层为草色;底部有倒锥(y<0);surfaceY 返回岛面�
   expect(isle.surfaceY(0, 0)).toBe(top.y)
 })
 ```
-- [ ] **Step 2:** 红 → 实现:`createNoise2D(seedFn)`(simplex-noise 接受自定义 random,用 mulberry32(seed) 保确定性);高度场 `h = base + noise*amp`,径向衰减 `falloff = max(0, 1 - (r/radius)^2)`;地表以上逐层填体素:顶层 `--c-grass` 值 `#5fa64d`、其下 2 层 `#8a5a3c` 泥土、再下 `#7a7a72` 岩石;底部倒锥:y<0 时半径线性收缩,填岩石,尖底;边缘随机点缀 `#e6c47a` 沙色;返回 `{ voxels: {x,y,z,color}[], surfaceY(x,z), radius }`。装饰(树=干1×2+叶3×3×2、花、石)由 `decor: boolean` 开关生成,同色板。→ 绿。
-- [ ] **Step 3:** 提交 `feat: deterministic voxel island generator`。
+- [x] **Step 2:** 红 → 实现:`createNoise2D(seedFn)`(simplex-noise 接受自定义 random,用 mulberry32(seed) 保确定性);高度场 `h = base + noise*amp`,径向衰减 `falloff = max(0, 1 - (r/radius)^2)`;地表以上逐层填体素:顶层 `--c-grass` 值 `#5fa64d`、其下 2 层 `#8a5a3c` 泥土、再下 `#7a7a72` 岩石;底部倒锥:y<0 时半径线性收缩,填岩石,尖底;边缘随机点缀 `#e6c47a` 沙色;返回 `{ voxels: {x,y,z,color}[], surfaceY(x,z), radius }`。装饰(树=干1×2+叶3×3×2、花、石)由 `decor: boolean` 开关生成,同色板。→ 绿。
+- [x] **Step 3:** 提交 `feat: deterministic voxel island generator`。
 
 ## Task 12: 3D 壳 + WorldScene(大地图)
 
@@ -331,9 +331,9 @@ it('结构:有体素;顶层为草色;底部有倒锥(y<0);surfaceY 返回岛面�
 - `WorldScene`:云海背景(大平面+雾色 `--c-sea-dark` 渐变,天空 `color` 背景);布阵:起源岛(seed 固定 1001)、进阶岛、大师岛、创造湾(seed 2002,码头色)、用户岛(来自 saveService,环形排开);锁定岛罩半透明体素云块+🔒 sprite;悬停 scale 1.05+变亮(onPointerOver);点击解锁岛 → 相机飞向 → `onEnter(id)`;点击锁定岛 → `onLockedClick()`。
 - `IslandDock.tsx`(2D overlay,DOM 等价入口):底部像素码头条,列出全部岛(名称+状态:▶可玩/🔒/✨创造湾/🏝我的岛),按钮 aria-label=岛名,点击行为与 3D 点击一致。**1.0 验收测试的「起源岛/进阶之岛」按钮语义由 Dock 延续。**
 
-- [ ] **Step 1:** 实现四组件 + App 接入(scene state 'world'|'island';WorldMap 替换为 Scene3D+IslandDock;暂时进岛仍用旧 2D Island,Task 13 替换)。
-- [ ] **Step 2:** 冒烟测试:jsdom 无 WebGL → Scene3D 渲染能力提示而不崩;IslandDock 渲染全部岛、点「起源岛」触发 onEnter、点锁定岛弹 toast。`pnpm test` 全绿。
-- [ ] **Step 3:** `pnpm dev` 真浏览器自检:浮空岛群可转/可拖/可点,像素颗粒感生效。提交 `feat: 3d world scene with voxel floating islands`。
+- [x] **Step 1:** 实现四组件 + App 接入(scene state 'world'|'island';WorldMap 替换为 Scene3D+IslandDock;暂时进岛仍用旧 2D Island,Task 13 替换)。
+- [x] **Step 2:** 冒烟测试:jsdom 无 WebGL → Scene3D 渲染能力提示而不崩;IslandDock 渲染全部岛、点「起源岛」触发 onEnter、点锁定岛弹 toast。`pnpm test` 全绿。
+- [x] **Step 3:** `pnpm dev` 真浏览器自检:浮空岛群可转/可拖/可点,像素颗粒感生效。提交 `feat: 3d world scene with voxel floating islands`。
 
 ## Task 13: IslandScene(岛内 3D)+ App 集成 v2
 
@@ -346,26 +346,26 @@ it('结构:有体素;顶层为草色;底部有倒锥(y<0);surfaceY 返回岛面�
 - `NodeDrawer`(2D overlay):右侧抽屉列出该岛全部节点(title+状态 emoji),aria-label=节点 title,点击可开 NodePanel——**1.0 验收测试的节点按钮语义由 Drawer 延续**;锁定节点 aria-disabled。
 - `position` 类型:`{ x: number; y: number }` 重命名语义为岛面平面坐标(x→x, y→z),**类型与内容数据不改字段名**(避免大改),engine3d 内部映射 `z = position.y`。
 
-- [ ] **Step 1:** 实现组件,App 全量接线(world↔island 镜头切换;NodePanel/HUD/Shelf/Celebration/Toast 全保留)。
-- [ ] **Step 2:** 删除旧 2D 场景四组件与其测试;App.test/acceptance.test 改走 IslandDock+NodeDrawer(按钮 aria 语义不变,断言基本不动:进岛后节点列表在 Drawer 中)。
-- [ ] **Step 3:** `pnpm test` 全绿(验收测试完整通关流程仍过)+ `pnpm dev` 自检(进岛镜头飞入、小人跳点、节点三态)。提交 `feat: 3d island scene + integration, drop 2d scenes`。
+- [x] **Step 1:** 实现组件,App 全量接线(world↔island 镜头切换;NodePanel/HUD/Shelf/Celebration/Toast 全保留)。
+- [x] **Step 2:** 删除旧 2D 场景四组件与其测试;App.test/acceptance.test 改走 IslandDock+NodeDrawer(按钮 aria 语义不变,断言基本不动:进岛后节点列表在 Drawer 中)。
+- [x] **Step 3:** `pnpm test` 全绿(验收测试完整通关流程仍过)+ `pnpm dev` 自检(进岛镜头飞入、小人跳点、节点三态)。提交 `feat: 3d island scene + integration, drop 2d scenes`。
 
 ## Task 14: Agent 创岛(CreatorBay)
 
 **Files:** Create `src/game/islandSchema.ts`、`islandSchema.test.ts`、`src/creator/generatePrompt.ts`、`src/creator/createIslandFlow.ts`、`createIslandFlow.test.ts`、`src/components/CreatorBay.tsx`、`IslandPreview.tsx`;Modify `App.tsx`、`WorldScene.tsx`(用户岛已在 Task 12 预留)。
 
-- [ ] **Step 1(TDD schema):** 失败测试:合法 IslandDef(quiz/truefalse/match/fill-prompt 四类任务、2~4 learn 卡、id 形如 `<islandId>-n`)通过;非法(空 learn、answerIndex 越界、未知 type、节点数<3)逐个拒绝且错误信息含字段路径。实现:zod discriminatedUnion 四任务 + GameNode/IslandDef 校验器 `validateGeneratedIsland(json: unknown): IslandDef`(throw ZodError)。红→绿。
-- [ ] **Step 2(生成提示词):** `generatePrompt.ts` 导出系统提示词模板:角色=教学关卡设计师;输出**仅一个 ```json 围栏**;硬约束:任务 type 限四基础类、每节点 learn 2~4 张(每张 title+100~200字 body)、quiz 4 选项、match 4 对、节点 3~6 个主线(order 1..n)+0~2 宝箱、coins 主线10宝箱5、position 在 0..100 网格沿 S 形、内容必须围绕用户主题且**自我标注**:island.name 后缀不加,但 def 内 `id` 前缀 `custom-`,UI 展示「AI 生成」徽标。
-- [ ] **Step 3(TDD 编排):** `createIslandFlow.ts`:`async generateIsland(userBrief, chatFn)`:①拼消息调 chatFn;②提取 ```json 围栏(无围栏视为失败);③`validateGeneratedIsland`;④失败把 ZodError 文本回喂 chatFn 重试 **一次**;⑤再失败 throw(错误带两轮原始输出摘要)。测试用 stub chatFn:首次返回坏 JSON、二次返回好 JSON → 成功;两次都坏 → throw。红→绿。
-- [ ] **Step 4(UI):** `CreatorBay.tsx`(PixelDialog 全屏):对话区(轮次气泡)+ 输入框;流程:用户描述主题 → AI 追问一轮(普通 chat)→ 用户补充 → 点「⚒️ 开始生成」走 generateIsland(转圈像素动画)→ 成功进预览;`IslandPreview.tsx`:左 3D `VoxelIsland(seed=hash(name))` 小画布 + 右节点清单(title/类型/卡数)+ palette 三选一(草绿/沙金/雪白——只调 voxelGen 顶层色)+「重新生成」「保存上岛」;保存走 saveService.saveCustomIsland → WorldScene 用户岛区出现,进入可玩(useGameState 已支持多岛)。无 AI 配置时 CreatorBay 显示接入引导。
-- [ ] **Step 5:** 冒烟:stub chatFn 注入(props 允许传 chatFn,默认 aiGateway.chat)走通生成→预览→保存;`pnpm test` 全绿。提交 `feat: agent island creator (CreatorBay)`。
+- [x] **Step 1(TDD schema):** 失败测试:合法 IslandDef(quiz/truefalse/match/fill-prompt 四类任务、2~4 learn 卡、id 形如 `<islandId>-n`)通过;非法(空 learn、answerIndex 越界、未知 type、节点数<3)逐个拒绝且错误信息含字段路径。实现:zod discriminatedUnion 四任务 + GameNode/IslandDef 校验器 `validateGeneratedIsland(json: unknown): IslandDef`(throw ZodError)。红→绿。
+- [x] **Step 2(生成提示词):** `generatePrompt.ts` 导出系统提示词模板:角色=教学关卡设计师;输出**仅一个 ```json 围栏**;硬约束:任务 type 限四基础类、每节点 learn 2~4 张(每张 title+100~200字 body)、quiz 4 选项、match 4 对、节点 3~6 个主线(order 1..n)+0~2 宝箱、coins 主线10宝箱5、position 在 0..100 网格沿 S 形、内容必须围绕用户主题且**自我标注**:island.name 后缀不加,但 def 内 `id` 前缀 `custom-`,UI 展示「AI 生成」徽标。
+- [x] **Step 3(TDD 编排):** `createIslandFlow.ts`:`async generateIsland(userBrief, chatFn)`:①拼消息调 chatFn;②提取 ```json 围栏(无围栏视为失败);③`validateGeneratedIsland`;④失败把 ZodError 文本回喂 chatFn 重试 **一次**;⑤再失败 throw(错误带两轮原始输出摘要)。测试用 stub chatFn:首次返回坏 JSON、二次返回好 JSON → 成功;两次都坏 → throw。红→绿。
+- [x] **Step 4(UI):** `CreatorBay.tsx`(PixelDialog 全屏):对话区(轮次气泡)+ 输入框;流程:用户描述主题 → AI 追问一轮(普通 chat)→ 用户补充 → 点「⚒️ 开始生成」走 generateIsland(转圈像素动画)→ 成功进预览;`IslandPreview.tsx`:左 3D `VoxelIsland(seed=hash(name))` 小画布 + 右节点清单(title/类型/卡数)+ palette 三选一(草绿/沙金/雪白——只调 voxelGen 顶层色)+「重新生成」「保存上岛」;保存走 saveService.saveCustomIsland → WorldScene 用户岛区出现,进入可玩(useGameState 已支持多岛)。无 AI 配置时 CreatorBay 显示接入引导。
+- [x] **Step 5:** 冒烟:stub chatFn 注入(props 允许传 chatFn,默认 aiGateway.chat)走通生成→预览→保存;`pnpm test` 全绿。提交 `feat: agent island creator (CreatorBay)`。
 
 ## Task 15: 验收与构建
 
-- [ ] **Step 1:** 对照 spec 第 10 节逐条核验:更新 `src/acceptance.test.tsx` 覆盖新流程(四新玩法卡牌/基础模式通关、Dock/Drawer 导航、创岛 stub 流程、1.0 回归链条);`pnpm test` 全绿。
-- [ ] **Step 2:** `pnpm exec tsc --noEmit` 无错;`pnpm build` 成功;bundle 检查:3D chunk 独立(rollup 自动 split lazy 入口)。
-- [ ] **Step 3:** `pnpm dev` 真浏览器全流程自检(含 BYOK 实测一次 DeepSeek 调用,若用户环境无 Key 则记录待用户自测项)。
-- [ ] **Step 4:** 提交 `chore: phase A acceptance + build`。
+- [x] **Step 1:** 对照 spec 第 10 节逐条核验:更新 `src/acceptance.test.tsx` 覆盖新流程(四新玩法卡牌/基础模式通关、Dock/Drawer 导航、创岛 stub 流程、1.0 回归链条);`pnpm test` 全绿。
+- [x] **Step 2:** `pnpm exec tsc --noEmit` 无错;`pnpm build` 成功;bundle 检查:3D chunk 独立(rollup 自动 split lazy 入口)。
+- [x] **Step 3:** `pnpm dev` 真浏览器全流程自检(含 BYOK 实测一次 DeepSeek 调用,若用户环境无 Key 则记录待用户自测项)。
+- [x] **Step 4:** 提交 `chore: phase A acceptance + build`。
 
 ## Task 16(可选增强,不阻塞 Phase A 验收): GLB 装饰点缀
 
