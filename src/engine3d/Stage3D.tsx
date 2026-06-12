@@ -7,6 +7,7 @@ import { EffectComposer, Pixelation } from '@react-three/postprocessing'
 import * as THREE from 'three'
 import { WorldScene, type WorldIslandSpec } from './WorldScene'
 import { IslandScene, type IslandSceneProps } from './IslandScene'
+import { PixelSky, CloudSea, PixelSun } from './Atmosphere'
 
 export interface Stage3DProps {
   mode: 'world' | 'island'
@@ -33,20 +34,22 @@ function CameraLerp({ to }: { to: [number, number, number] }) {
 
 export default function Stage3D({ mode, world, island }: Stage3DProps) {
   return (
-    <Canvas camera={{ position: [0, 20, 34], fov: 45 }} dpr={[1, 1.5]} className="stage3d-canvas">
-      <color attach="background" args={['#2e5a8a']} />
-      <fog attach="fog" args={['#2e5a8a', 70, 150]} />
+    <Canvas camera={{ position: [0, 22, 38], fov: 45 }} dpr={[1, 1.5]} className="stage3d-canvas">
+      <fog attach="fog" args={['#9cc4e4', 90, 240]} />
       <ambientLight intensity={0.75} />
       <directionalLight position={[24, 32, 12]} intensity={2.2} color="#fff4d6" />
+      <PixelSky />
+      <CloudSea />
+      <PixelSun />
       {mode === 'world' && world
         ? <WorldScene islands={world.islands} onEnter={world.onEnter} onLockedClick={world.onLockedClick} />
         : island && <IslandScene {...island} />}
-      <CameraLerp key={mode + (island?.def.id ?? '')} to={mode === 'world' ? [0, 20, 34] : [0, 16, 30]} />
+      <CameraLerp key={`cam-${mode}-${island?.def.id ?? ''}`} to={mode === 'world' ? [0, 22, 38] : [0, 24, 27]} />
       <EffectComposer>
         <Pixelation granularity={5} />
       </EffectComposer>
       <OrbitControls
-        key={mode}
+        key={`orbit-${mode}`}
         minPolarAngle={Math.PI / 6}
         maxPolarAngle={Math.PI / 2.4}
         minDistance={mode === 'world' ? 14 : 10}
