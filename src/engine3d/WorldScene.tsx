@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Html } from '@react-three/drei'
 import { VoxelIsland } from './VoxelIsland'
+import { IslandLandmark } from './IslandLandmark'
+import { themeRadius, themeTopColor, type IslandTheme } from './islandThemes'
 
 export interface WorldIslandSpec {
   id: string
@@ -9,6 +11,7 @@ export interface WorldIslandSpec {
   locked: boolean
   playable: boolean
   kind: 'official' | 'creator' | 'custom'
+  theme: IslandTheme
   topColor?: string
   position: [number, number, number]
 }
@@ -45,9 +48,9 @@ export function WorldScene({ islands, onEnter, onLockedClick }: {
         <group key={isle.id} position={isle.position}>
           <VoxelIsland
             seed={isle.seed}
-            radius={isle.kind === 'official' ? 7 : 5}
-            topColor={isle.topColor}
-            decor={!isle.locked}
+            radius={themeRadius[isle.theme]}
+            topColor={isle.topColor ?? themeTopColor[isle.theme]}
+            decor={isle.theme === 'origin' || isle.theme === 'custom'}
             spin={isle.locked ? 0.03 : 0.1}
             scale={hovered === isle.id ? 1.07 : 1}
             onClick={e => {
@@ -58,6 +61,7 @@ export function WorldScene({ islands, onEnter, onLockedClick }: {
             onPointerOver={() => { setHovered(isle.id); document.body.style.cursor = 'pointer' }}
             onPointerOut={() => { setHovered(null); document.body.style.cursor = 'auto' }}
           >
+            <IslandLandmark theme={isle.theme} />
             {isle.locked && <CloudLock />}
             <Html center position={[0, -9, 0]} distanceFactor={36} zIndexRange={[12, 0]}>
               <div className={`island-3d-label${isle.locked ? ' locked' : ''}`}>

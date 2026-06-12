@@ -8,6 +8,7 @@ import { saveService } from './services/saveService'
 import { supportsWebGL } from './engine3d/webgl'
 import { Stage3D } from './engine3d/lazyStage'
 import type { WorldIslandSpec } from './engine3d/WorldScene'
+import type { IslandTheme } from './engine3d/islandThemes'
 import { NodePanel } from './components/NodePanel'
 import { HUD } from './components/HUD'
 import { AchievementShelf } from './components/AchievementShelf'
@@ -20,10 +21,10 @@ import { CustomIslandSession } from './components/CustomIslandSession'
 import { PALETTES } from './components/islandPalettes'
 import { PixelToast, PixelPanel, PixelButton } from './ui'
 
-const ISLAND_LAYOUT: Record<string, { seed: number; position: [number, number, number]; topColor?: string }> = {
-  'origin': { seed: 1001, position: [-18, 0, 0] },
-  'sea2-island1': { seed: 2002, position: [0, 0, -8], topColor: '#e6c47a' },
-  'sea3-island1': { seed: 3003, position: [18, 0, 0], topColor: '#f4ecd6' },
+const ISLAND_LAYOUT: Record<string, { seed: number; position: [number, number, number]; topColor?: string; theme: IslandTheme }> = {
+  'origin': { seed: 1001, position: [-15.5, 0, 0], theme: 'origin' },
+  'sea2-island1': { seed: 2002, position: [0, 0, -9], topColor: '#e6c47a', theme: 'desert' },
+  'sea3-island1': { seed: 3003, position: [15.5, 0, 0], topColor: '#f4ecd6', theme: 'snow' },
 }
 
 export default function App() {
@@ -59,7 +60,7 @@ export default function App() {
   }, [justEarned])
 
   const island = ISLANDS.find(i => i.id === islandId) ?? ORIGIN_ISLAND
-  const layout = ISLAND_LAYOUT[island.id] ?? { seed: 7777, position: [0, 0, 16] as [number, number, number] }
+  const layout = ISLAND_LAYOUT[island.id] ?? { seed: 7777, position: [0, 0, 16] as [number, number, number], theme: 'custom' as const }
   const customItem = customIslands.find(c => c.def.id === islandId)
   const enterIsland = (id: string) => {
     if (id === 'creator-bay') { setCreatorOpen(true); return }
@@ -82,12 +83,13 @@ export default function App() {
       locked: !save.unlockedIslands.includes(isle.id),
       playable: isle.nodes.length > 0,
       kind: 'official' as const,
+      theme: ISLAND_LAYOUT[isle.id]?.theme ?? 'custom',
       topColor: ISLAND_LAYOUT[isle.id]?.topColor,
       position: ISLAND_LAYOUT[isle.id]?.position ?? [0, 0, 16] as [number, number, number],
     })),
     {
       id: 'creator-bay', name: '创造湾', seed: 4004, locked: false, playable: false,
-      kind: 'creator' as const, topColor: '#e6c47a', position: [0, -1, 16],
+      kind: 'creator' as const, theme: 'creator' as const, topColor: '#e6c47a', position: [0, -2, 8],
     },
     ...customIslands.map((c, i) => ({
       id: c.def.id,
@@ -96,6 +98,7 @@ export default function App() {
       locked: false,
       playable: true,
       kind: 'custom' as const,
+      theme: 'custom' as const,
       topColor: PALETTES.find(p => p.id === c.palette)?.topColor,
       position: [(i - (customIslands.length - 1) / 2) * 14, 1, 28] as [number, number, number],
     })),
