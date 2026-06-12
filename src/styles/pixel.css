@@ -154,6 +154,8 @@ img{image-rendering:pixelated;}
 .ai-settings{width:min(520px,92vw);}
 .ai-field{display:block;margin:8px 0;}
 .ai-field .fill-input{display:block;width:100%;margin:4px 0 0;}
+.asset-pack-note{border:3px dashed var(--c-wood);padding:10px;margin:12px 0;background:rgba(255,255,255,.24);}
+.asset-pack-note h3{font-size:12px;margin:0 0 8px;}
 .dialog-free-input{width:70%;}
 .forge-live-input{width:100%;font-family:inherit;}
 
@@ -167,6 +169,8 @@ img{image-rendering:pixelated;}
 .island-3d-label.locked{opacity:.7;}
 .island-3d-play{color:var(--c-gold);}
 .island-3d-lock{font-size:40px;}
+.local-asset-sprite{filter:drop-shadow(3px 3px 0 rgba(58,42,26,.75));pointer-events:none;}
+.local-asset-sprite img{max-width:96px;max-height:96px;image-rendering:pixelated;}
 .island-dock{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:10;
   display:flex;gap:10px;background:rgba(58,42,26,.9);border:3px solid var(--c-ink);
   padding:10px 14px;}

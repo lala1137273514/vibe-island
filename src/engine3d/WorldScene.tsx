@@ -3,6 +3,7 @@ import { Html } from '@react-three/drei'
 import { VoxelIsland } from './VoxelIsland'
 import { IslandLandmark } from './IslandLandmark'
 import { themeRadius, themeTopColor, type IslandTheme } from './islandThemes'
+import { getIslandSprite, type LocalAssetPack } from '../services/localAssetPack'
 
 export interface WorldIslandSpec {
   id: string
@@ -36,8 +37,19 @@ function CloudLock() {
   )
 }
 
-export function WorldScene({ islands, onEnter, onLockedClick }: {
+function LocalSprite({ src, name }: { src: string; name: string }) {
+  return (
+    <Html center position={[0, 9.6, 0]} distanceFactor={28} zIndexRange={[12, 0]}>
+      <div className="local-asset-sprite">
+        <img src={src} alt={`${name} 本地素材`} draggable={false} />
+      </div>
+    </Html>
+  )
+}
+
+export function WorldScene({ islands, assetPack, onEnter, onLockedClick }: {
   islands: WorldIslandSpec[]
+  assetPack: LocalAssetPack | null
   onEnter: (id: string) => void
   onLockedClick: () => void
 }) {
@@ -61,6 +73,9 @@ export function WorldScene({ islands, onEnter, onLockedClick }: {
             onPointerOver={() => { setHovered(isle.id); document.body.style.cursor = 'pointer' }}
             onPointerOut={() => { setHovered(null); document.body.style.cursor = 'auto' }}
           >
+            {getIslandSprite(assetPack, isle.id, isle.theme) && (
+              <LocalSprite src={getIslandSprite(assetPack, isle.id, isle.theme)!} name={isle.name} />
+            )}
             <IslandLandmark theme={isle.theme} />
             {isle.locked && <CloudLock />}
             <Html center position={[0, -9, 0]} distanceFactor={36} zIndexRange={[12, 0]}>

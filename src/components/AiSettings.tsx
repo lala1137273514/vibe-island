@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { PixelDialog, PixelButton } from '../ui'
 import { loadAiConfig, saveAiConfig, clearAiConfig, chat } from '../services/aiGateway'
+import type { LocalAssetPackState } from '../services/localAssetPack'
 
-export function AiSettings({ onClose }: { onClose: () => void }) {
+export function AiSettings({ onClose, assetPackState }: { onClose: () => void; assetPackState?: LocalAssetPackState }) {
   const existing = loadAiConfig()
   const [baseURL, setBaseURL] = useState(existing?.baseURL ?? 'https://api.deepseek.com')
   const [apiKey, setApiKey] = useState(existing?.apiKey ?? '')
@@ -38,6 +39,19 @@ export function AiSettings({ onClose }: { onClose: () => void }) {
       <label className="body-text ai-field">模型名
         <input className="fill-input" aria-label="model" value={model} onChange={e => setModel(e.target.value)} />
       </label>
+      <div className="asset-pack-note">
+        <h3>🎨 本地素材包</h3>
+        <p className="body-text">
+          {assetPackState?.status === 'ready'
+            ? `✅ ${assetPackState.message}`
+            : assetPackState?.status === 'error'
+              ? `❌ ${assetPackState.message}`
+              : assetPackState?.status === 'loading'
+                ? '⏳ 正在检测 public/local-assets/manifest.json'
+                : '未启用。复制 public/local-assets.example.json 到 public/local-assets/manifest.json 后刷新。'}
+        </p>
+        {assetPackState?.pack?.description && <p className="body-text">{assetPackState.pack.description}</p>}
+      </div>
       <div className="panel-actions">
         <PixelButton onClick={clear}>清除</PixelButton>
         <PixelButton onClick={test}>测试连接</PixelButton>

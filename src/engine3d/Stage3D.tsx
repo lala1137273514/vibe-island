@@ -8,11 +8,13 @@ import * as THREE from 'three'
 import { WorldScene, type WorldIslandSpec } from './WorldScene'
 import { IslandScene, type IslandSceneProps } from './IslandScene'
 import { PixelSky, CloudSea, PixelSun } from './Atmosphere'
+import type { LocalAssetPack } from '../services/localAssetPack'
 
 export interface Stage3DProps {
   mode: 'world' | 'island'
   world?: {
     islands: WorldIslandSpec[]
+    assetPack: LocalAssetPack | null
     onEnter: (id: string) => void
     onLockedClick: () => void
   }
@@ -47,7 +49,7 @@ export default function Stage3D({ mode, world, island }: Stage3DProps) {
       <CloudSea />
       <PixelSun />
       {mode === 'world' && world
-        ? <WorldScene islands={world.islands} onEnter={world.onEnter} onLockedClick={world.onLockedClick} />
+        ? <WorldScene islands={world.islands} assetPack={world.assetPack} onEnter={world.onEnter} onLockedClick={world.onLockedClick} />
         : island && <IslandScene {...island} />}
       <CameraLerp key={`cam-${mode}-${island?.def.id ?? ''}`} to={mode === 'world' ? [0, 22, 38] : [0, 24, 27]} />
       <EffectComposer>

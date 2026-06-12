@@ -5,6 +5,7 @@ import { ISLANDS } from './content/islands'
 import { ACHIEVEMENTS } from './game/achievements'
 import { useGameState } from './state/useGameState'
 import { saveService } from './services/saveService'
+import { loadLocalAssetPack, type LocalAssetPackState } from './services/localAssetPack'
 import { supportsWebGL } from './engine3d/webgl'
 import { Stage3D } from './engine3d/lazyStage'
 import type { WorldIslandSpec } from './engine3d/WorldScene'
@@ -39,7 +40,16 @@ export default function App() {
   const [tip, setTip] = useState<string | null>(null)
   const [creatorOpen, setCreatorOpen] = useState(false)
   const [customIslands, setCustomIslands] = useState(() => saveService.listCustomIslands())
+  const [assetPackState, setAssetPackState] = useState<LocalAssetPackState>({ status: 'loading', pack: null })
   const webgl = useMemo(() => supportsWebGL(), [])
+
+  useEffect(() => {
+    let alive = true
+    void loadLocalAssetPack().then(state => {
+      if (alive) setAssetPackState(state)
+    })
+    return () => { alive = false }
+  }, [])
 
   // 新成就 toast;拿到「起源岛主」时触发通关烟花
   useEffect(() => {
@@ -128,7 +138,7 @@ export default function App() {
           <CustomIslandSession key={customItem.def.id} item={customItem} webgl={webgl} onBack={() => setScene('map')} />
         </div>
         {shelfOpen && <AchievementShelf save={save} onClose={() => setShelfOpen(false)} />}
-        {settingsOpen && <AiSettings onClose={() => setSettingsOpen(false)} />}
+        {settingsOpen && <AiSettings onClose={() => setSettingsOpen(false)} assetPackState={assetPackState} />}
       </>
     )
   }
@@ -142,7 +152,7 @@ export default function App() {
             <Suspense fallback={<PixelPanel className="loading-note">⛵ 群岛装载中…</PixelPanel>}>
               <Stage3D
                 mode={scene === 'map' ? 'world' : 'island'}
-                world={{ islands: worldIslands, onEnter: enterIsland, onLockedClick: lockedTip }}
+                world={{ islands: worldIslands, assetPack: assetPackState.pack, onEnter: enterIsland, onLockedClick: lockedTip }}
                 island={scene === 'island' ? {
                   def: island,
                   seed: layout.seed,
@@ -184,7 +194,7 @@ export default function App() {
         <NodePanel node={activeNode} onPass={handlePass} onClose={() => setActiveNode(null)} />
       )}
       {shelfOpen && <AchievementShelf save={save} onClose={() => setShelfOpen(false)} />}
-      {settingsOpen && <AiSettings onClose={() => setSettingsOpen(false)} />}
+      {settingsOpen && <AiSettings onClose={() => setSettingsOpen(false)} assetPackState={assetPackState} />}
       {creatorOpen && (
         <CreatorBay
           onClose={() => setCreatorOpen(false)}

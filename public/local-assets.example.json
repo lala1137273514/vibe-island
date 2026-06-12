@@ -1,0 +1,16 @@
+{
+  "name": "本地私用素材包示例",
+  "description": "复制为 public/local-assets/manifest.json 后使用。素材文件只放本机，不提交 Git。",
+  "sprites": {
+    "themes": {
+      "origin": "sprites/origin.png",
+      "desert": "sprites/desert.png",
+      "snow": "sprites/snow.png",
+      "creator": "sprites/creator.png",
+      "custom": "sprites/custom.png"
+    },
+    "islands": {
+      "origin": "sprites/origin-special.png"
+    }
+  }
+}
