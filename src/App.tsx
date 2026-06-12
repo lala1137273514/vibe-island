@@ -117,10 +117,11 @@ export default function App() {
     ...ISLANDS.map(isle => ({
       id: isle.id,
       name: isle.name,
+      theme: ISLAND_LAYOUT[isle.id]?.theme ?? 'custom' as const,
       status: save.unlockedIslands.includes(isle.id) ? 'playable' as const : 'locked' as const,
     })),
-    { id: 'creator-bay', name: '创造湾', status: 'creator' as const },
-    ...customIslands.map(c => ({ id: c.def.id, name: c.def.name, status: 'custom' as const })),
+    { id: 'creator-bay', name: '创造湾', theme: 'creator' as const, status: 'creator' as const },
+    ...customIslands.map(c => ({ id: c.def.id, name: c.def.name, theme: 'custom' as const, status: 'custom' as const })),
   ]
 
   const handlePass = (star: boolean) => {

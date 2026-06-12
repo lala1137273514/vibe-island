@@ -1,8 +1,11 @@
 import { PixelButton } from '../ui'
+import type { IslandTheme } from '../engine3d/islandThemes'
+import { getOriginalThemeSprite } from '../services/originalAssets'
 
 export interface DockItem {
   id: string
   name: string
+  theme: IslandTheme
   status: 'playable' | 'locked' | 'creator' | 'custom'
 }
 
@@ -25,7 +28,11 @@ export function IslandDock({ items, onSelect, onLockedClick }: {
           className={`dock-btn${i.status === 'locked' ? ' locked' : ''}`}
           onClick={() => (i.status === 'locked' ? onLockedClick() : onSelect(i.id))}
         >
-          {ICON[i.status]} {i.name}{i.status === 'playable' ? ' ▶' : ''}
+          <span className="dock-icon-stack" aria-hidden="true">
+            <img className="dock-sprite" src={getOriginalThemeSprite(i.theme)} alt="" draggable={false} />
+            <span className="dock-emoji">{ICON[i.status]}</span>
+          </span>
+          <span className="dock-label">{i.name}{i.status === 'playable' ? ' ▶' : ''}</span>
         </PixelButton>
       ))}
     </div>

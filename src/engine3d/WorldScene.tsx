@@ -4,6 +4,7 @@ import { VoxelIsland } from './VoxelIsland'
 import { IslandLandmark } from './IslandLandmark'
 import { themeRadius, themeTopColor, type IslandTheme } from './islandThemes'
 import { getIslandSprite, type LocalAssetPack } from '../services/localAssetPack'
+import { getOriginalThemeSprite } from '../services/originalAssets'
 
 export interface WorldIslandSpec {
   id: string
@@ -37,11 +38,11 @@ function CloudLock() {
   )
 }
 
-function LocalSprite({ src, name }: { src: string; name: string }) {
+function ThemeSprite({ src, name, local }: { src: string; name: string; local: boolean }) {
   return (
     <Html center position={[0, 9.6, 0]} distanceFactor={28} zIndexRange={[12, 0]}>
-      <div className="local-asset-sprite">
-        <img src={src} alt={`${name} 本地素材`} draggable={false} />
+      <div className={`theme-asset-sprite${local ? ' local' : ''}`}>
+        <img src={src} alt={`${name} 主题徽章`} draggable={false} />
       </div>
     </Html>
   )
@@ -56,37 +57,40 @@ export function WorldScene({ islands, assetPack, onEnter, onLockedClick }: {
   const [hovered, setHovered] = useState<string | null>(null)
   return (
     <group>
-      {islands.map(isle => (
-        <group key={isle.id} position={isle.position}>
-          <VoxelIsland
-            seed={isle.seed}
-            radius={themeRadius[isle.theme]}
-            topColor={isle.topColor ?? themeTopColor[isle.theme]}
-            decor={isle.theme === 'origin' || isle.theme === 'custom'}
-            spin={isle.locked ? 0.03 : 0.1}
-            scale={hovered === isle.id ? 1.07 : 1}
-            onClick={e => {
-              e.stopPropagation()
-              if (isle.locked) onLockedClick()
-              else onEnter(isle.id)
-            }}
-            onPointerOver={() => { setHovered(isle.id); document.body.style.cursor = 'pointer' }}
-            onPointerOut={() => { setHovered(null); document.body.style.cursor = 'auto' }}
-          >
-            {getIslandSprite(assetPack, isle.id, isle.theme) && (
-              <LocalSprite src={getIslandSprite(assetPack, isle.id, isle.theme)!} name={isle.name} />
-            )}
-            <IslandLandmark theme={isle.theme} />
-            {isle.locked && <CloudLock />}
-            <Html center position={[0, -9, 0]} distanceFactor={36} zIndexRange={[12, 0]}>
-              <div className={`island-3d-label${isle.locked ? ' locked' : ''}`}>
-                {isle.kind === 'creator' ? '⚓ ' : isle.kind === 'custom' ? '🏝 ' : ''}{isle.name}
-                {isle.playable && !isle.locked && <span className="island-3d-play"> ▶</span>}
-              </div>
-            </Html>
-          </VoxelIsland>
-        </group>
-      ))}
+      {islands.map(isle => {
+        const localSprite = getIslandSprite(assetPack, isle.id, isle.theme)
+        const sprite = localSprite ?? getOriginalThemeSprite(isle.theme)
+        const labelPosition: [number, number, number] = [0, isle.kind === 'creator' ? -4.8 : -9, 0]
+        return (
+          <group key={isle.id} position={isle.position}>
+            <VoxelIsland
+              seed={isle.seed}
+              radius={themeRadius[isle.theme]}
+              topColor={isle.topColor ?? themeTopColor[isle.theme]}
+              decor={isle.theme === 'origin' || isle.theme === 'custom'}
+              spin={isle.locked ? 0.03 : 0.1}
+              scale={hovered === isle.id ? 1.07 : 1}
+              onClick={e => {
+                e.stopPropagation()
+                if (isle.locked) onLockedClick()
+                else onEnter(isle.id)
+              }}
+              onPointerOver={() => { setHovered(isle.id); document.body.style.cursor = 'pointer' }}
+              onPointerOut={() => { setHovered(null); document.body.style.cursor = 'auto' }}
+            >
+              <ThemeSprite src={sprite} name={isle.name} local={Boolean(localSprite)} />
+              <IslandLandmark theme={isle.theme} />
+              {isle.locked && <CloudLock />}
+              <Html center position={labelPosition} distanceFactor={36} zIndexRange={[12, 0]}>
+                <div className={`island-3d-label${isle.locked ? ' locked' : ''}`}>
+                  {isle.kind === 'creator' ? '⚓ ' : isle.kind === 'custom' ? '🏝 ' : ''}{isle.name}
+                  {isle.playable && !isle.locked && <span className="island-3d-play"> ▶</span>}
+                </div>
+              </Html>
+            </VoxelIsland>
+          </group>
+        )
+      })}
     </group>
   )
 }

@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "assets": "node scripts/fetch-assets.mjs"
+    "assets": "node scripts/fetch-assets.mjs",
+    "assets:original": "node scripts/generate-original-assets.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10",

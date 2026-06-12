@@ -1,0 +1,20 @@
+{
+  "name": "Vibe Islands Original Cozy Pixel Pack",
+  "license": "Original assets generated in-repo for this project.",
+  "sprites": {
+    "themes": {
+      "origin": "sprites/origin-emblem.svg",
+      "desert": "sprites/desert-emblem.svg",
+      "snow": "sprites/snow-emblem.svg",
+      "creator": "sprites/creator-emblem.svg",
+      "custom": "sprites/custom-emblem.svg"
+    },
+    "ui": {
+      "coin": "sprites/coin.svg",
+      "star": "sprites/starfruit.svg",
+      "trophy": "sprites/trophy.svg",
+      "gear": "sprites/gear.svg",
+      "panelCorner": "sprites/wood-panel-corner.svg"
+    }
+  }
+}
