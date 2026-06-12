@@ -34,6 +34,19 @@
       "palm": "decor/palm.png",
       "mushroom": "decor/mushroom.png",
       "winterTree": "decor/winter-tree.png"
+    },
+    "props": {
+      "themes": {
+        "origin": [
+          { "id": "tree", "src": "props/tree.png", "position": [2.4, 5.1, 1.2], "width": 72 }
+        ]
+      },
+      "islands": {
+        "origin": [
+          { "id": "house", "src": "props/house.png", "position": [-2.2, 5.1, -1.1], "width": 92 },
+          { "id": "tree", "src": "props/tree.png", "position": [2.6, 5.1, 1.2], "width": 72 }
+        ]
+      }
     }
   }
 }
@@ -42,3 +55,10 @@
 `islands` 会覆盖 `themes`。路径只能写 `public/local-assets/` 下面的相对路径。
 
 `decor` 用来装饰整体页面,目前支持 `day`、`night`、`lantern`、`tree`、`palm`、`mushroom`、`winterTree`。
+
+`props` 用来把 PNG 素材挂到 3D 岛面上。`islands` 会覆盖 `themes`。每个挂件需要:
+
+- `id`: 同一组内唯一。
+- `src`: `public/local-assets/` 下的相对路径。
+- `position`: 3D 坐标 `[x, y, z]`。
+- `width`: 页面显示宽度,允许 16 到 220。

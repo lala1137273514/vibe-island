@@ -20,6 +20,19 @@
       "palm": "decor/palm.png",
       "mushroom": "decor/mushroom.png",
       "winterTree": "decor/winter-tree.png"
+    },
+    "props": {
+      "themes": {
+        "origin": [
+          { "id": "tree", "src": "props/tree.png", "position": [2.4, 5.1, 1.2], "width": 72 }
+        ]
+      },
+      "islands": {
+        "origin": [
+          { "id": "house", "src": "props/house.png", "position": [-2.2, 5.1, -1.1], "width": 92 },
+          { "id": "tree", "src": "props/tree.png", "position": [2.6, 5.1, 1.2], "width": 72 }
+        ]
+      }
     }
   }
 }

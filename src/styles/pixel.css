@@ -210,6 +210,8 @@ img{image-rendering:pixelated;}
 .theme-asset-sprite.local{background:rgba(244,236,214,.9);box-shadow:0 0 0 3px rgba(255,243,196,.48),5px 5px 0 rgba(58,42,26,.58);}
 .theme-asset-sprite img{max-width:76px;max-height:76px;object-fit:contain;image-rendering:pixelated;}
 @keyframes emblem-float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-7px) rotate(2deg)}}
+.island-prop-sprite{display:block;image-rendering:pixelated;object-fit:contain;pointer-events:none;
+  filter:drop-shadow(4px 5px 0 rgba(58,42,26,.42));transform:translateY(-16%);}
 .island-dock{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:10;
   display:flex;gap:10px;max-width:calc(100% - 20px);overflow-x:auto;background:rgba(58,42,26,.9);
   border:3px solid var(--c-ink);padding:10px 14px;}

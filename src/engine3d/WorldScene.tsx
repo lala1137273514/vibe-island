@@ -3,7 +3,12 @@ import { Html } from '@react-three/drei'
 import { VoxelIsland } from './VoxelIsland'
 import { IslandLandmark } from './IslandLandmark'
 import { themeRadius, themeTopColor, type IslandTheme } from './islandThemes'
-import { getIslandSprite, type LocalAssetPack } from '../services/localAssetPack'
+import {
+  getIslandProps,
+  getIslandSprite,
+  type LocalAssetPack,
+  type LocalIslandProp,
+} from '../services/localAssetPack'
 import { getOriginalThemeSprite } from '../services/originalAssets'
 
 export interface WorldIslandSpec {
@@ -48,6 +53,21 @@ function ThemeSprite({ src, name, local }: { src: string; name: string; local: b
   )
 }
 
+function IslandPropSprite({ prop }: { prop: LocalIslandProp }) {
+  return (
+    <Html center position={prop.position} distanceFactor={28} zIndexRange={[16, 0]}>
+      <img
+        className="island-prop-sprite"
+        src={prop.src}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+        style={{ width: `${prop.width}px` }}
+      />
+    </Html>
+  )
+}
+
 export function WorldScene({ islands, assetPack, onEnter, onLockedClick }: {
   islands: WorldIslandSpec[]
   assetPack: LocalAssetPack | null
@@ -60,6 +80,8 @@ export function WorldScene({ islands, assetPack, onEnter, onLockedClick }: {
       {islands.map(isle => {
         const localSprite = getIslandSprite(assetPack, isle.id, isle.theme)
         const sprite = localSprite ?? getOriginalThemeSprite(isle.theme)
+        const props = getIslandProps(assetPack, isle.id, isle.theme)
+        const hasLocalProps = props.length > 0
         const labelPosition: [number, number, number] = [0, isle.kind === 'creator' ? -4.8 : -9, 0]
         return (
           <group key={isle.id} position={isle.position}>
@@ -78,8 +100,10 @@ export function WorldScene({ islands, assetPack, onEnter, onLockedClick }: {
               onPointerOver={() => { setHovered(isle.id); document.body.style.cursor = 'pointer' }}
               onPointerOut={() => { setHovered(null); document.body.style.cursor = 'auto' }}
             >
-              <ThemeSprite src={sprite} name={isle.name} local={Boolean(localSprite)} />
-              <IslandLandmark theme={isle.theme} />
+              {hasLocalProps
+                ? props.map(prop => <IslandPropSprite key={prop.id} prop={prop} />)
+                : <ThemeSprite src={sprite} name={isle.name} local={Boolean(localSprite)} />}
+              {!hasLocalProps && <IslandLandmark theme={isle.theme} />}
               {isle.locked && <CloudLock />}
               <Html center position={labelPosition} distanceFactor={36} zIndexRange={[12, 0]}>
                 <div className={`island-3d-label${isle.locked ? ' locked' : ''}`}>
