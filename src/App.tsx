@@ -16,6 +16,7 @@ import { AchievementShelf } from './components/AchievementShelf'
 import { AiSettings } from './components/AiSettings'
 import { Celebration } from './components/Celebration'
 import { IslandDock, type DockItem } from './components/IslandDock'
+import { LocalDecorLayer } from './components/LocalDecorLayer'
 import { NodeDrawer } from './components/NodeDrawer'
 import { CreatorBay } from './components/CreatorBay'
 import { CustomIslandSession } from './components/CustomIslandSession'
@@ -149,6 +150,7 @@ export default function App() {
       <HUD save={save} onToggleShelf={() => setShelfOpen(o => !o)} onOpenSettings={() => setSettingsOpen(true)} />
       <div className="app-scene">
         <div className={`scene ${scene === 'map' ? 'sea-bg' : 'grass-bg'} world3d-wrap`}>
+          <LocalDecorLayer pack={assetPackState.pack} scene={scene} />
           {webgl ? (
             <Suspense fallback={<PixelPanel className="loading-note">⛵ 群岛装载中…</PixelPanel>}>
               <Stage3D
@@ -172,7 +174,12 @@ export default function App() {
             <>
               <h1 className="map-title">Vibe Coding 群岛</h1>
               <div className="map-coins">🪙 {save.coins}</div>
-              <IslandDock items={dockItems} onSelect={enterIsland} onLockedClick={lockedTip} />
+              <IslandDock
+                items={dockItems}
+                assetPack={assetPackState.pack}
+                onSelect={enterIsland}
+                onLockedClick={lockedTip}
+              />
             </>
           ) : (
             <>

@@ -25,9 +25,20 @@
     },
     "islands": {
       "origin": "sprites/origin-special.png"
+    },
+    "decor": {
+      "day": "decor/day.png",
+      "night": "decor/night.png",
+      "lantern": "decor/lantern.png",
+      "tree": "decor/tree.png",
+      "palm": "decor/palm.png",
+      "mushroom": "decor/mushroom.png",
+      "winterTree": "decor/winter-tree.png"
     }
   }
 }
 ```
 
 `islands` 会覆盖 `themes`。路径只能写 `public/local-assets/` 下面的相对路径。
+
+`decor` 用来装饰整体页面,目前支持 `day`、`night`、`lantern`、`tree`、`palm`、`mushroom`、`winterTree`。

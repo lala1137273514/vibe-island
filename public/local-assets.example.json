@@ -11,6 +11,15 @@
     },
     "islands": {
       "origin": "sprites/origin-special.png"
+    },
+    "decor": {
+      "day": "decor/day.png",
+      "night": "decor/night.png",
+      "lantern": "decor/lantern.png",
+      "tree": "decor/tree.png",
+      "palm": "decor/palm.png",
+      "mushroom": "decor/mushroom.png",
+      "winterTree": "decor/winter-tree.png"
     }
   }
 }

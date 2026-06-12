@@ -1,5 +1,11 @@
 import { describe, expect, it, vi } from 'vitest'
-import { getIslandSprite, loadLocalAssetPack, normalizeLocalAssetPack, toLocalAssetUrl } from './localAssetPack'
+import {
+  getIslandSprite,
+  getLocalDecorSprite,
+  loadLocalAssetPack,
+  normalizeLocalAssetPack,
+  toLocalAssetUrl,
+} from './localAssetPack'
 
 describe('localAssetPack', () => {
   it('只允许 local-assets 下的相对路径', () => {
@@ -20,6 +26,19 @@ describe('localAssetPack', () => {
     })
     expect(getIslandSprite(pack, 'origin', 'origin')).toBe('/local-assets/islands/origin-special.png')
     expect(getIslandSprite(pack, 'sea2-island1', 'origin')).toBe('/local-assets/themes/origin.png')
+  })
+
+  it('允许 manifest 提供页面装饰图', () => {
+    const pack = normalizeLocalAssetPack({
+      sprites: {
+        decor: {
+          day: 'decor/day.png',
+          lantern: '../bad.png',
+        },
+      },
+    })
+    expect(getLocalDecorSprite(pack, 'day')).toBe('/local-assets/decor/day.png')
+    expect(getLocalDecorSprite(pack, 'lantern')).toBeNull()
   })
 
   it('把 Vite HTML 回退识别为未启用', async () => {

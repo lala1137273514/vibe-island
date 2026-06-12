@@ -1,6 +1,9 @@
 import type { IslandTheme } from '../engine3d/islandThemes'
 
 const THEMES: IslandTheme[] = ['origin', 'desert', 'snow', 'creator', 'custom']
+const DECOR_KEYS = ['day', 'night', 'lantern', 'tree', 'palm', 'mushroom', 'winterTree'] as const
+
+export type LocalDecorKey = typeof DECOR_KEYS[number]
 
 export interface LocalAssetPack {
   name: string
@@ -8,6 +11,7 @@ export interface LocalAssetPack {
   sprites: {
     themes: Partial<Record<IslandTheme, string>>
     islands: Record<string, string>
+    decor: Partial<Record<LocalDecorKey, string>>
   }
 }
 
@@ -36,8 +40,10 @@ export function normalizeLocalAssetPack(raw: unknown): LocalAssetPack {
   const spritesRaw = isRecord(raw.sprites) ? raw.sprites : {}
   const themesRaw = isRecord(spritesRaw.themes) ? spritesRaw.themes : {}
   const islandsRaw = isRecord(spritesRaw.islands) ? spritesRaw.islands : {}
+  const decorRaw = isRecord(spritesRaw.decor) ? spritesRaw.decor : {}
   const themes: Partial<Record<IslandTheme, string>> = {}
   const islands: Record<string, string> = {}
+  const decor: Partial<Record<LocalDecorKey, string>> = {}
 
   for (const theme of THEMES) {
     const url = toLocalAssetUrl(themesRaw[theme])
@@ -48,13 +54,22 @@ export function normalizeLocalAssetPack(raw: unknown): LocalAssetPack {
     const url = toLocalAssetUrl(path)
     if (safeId && url) islands[safeId] = url
   }
+  for (const key of DECOR_KEYS) {
+    const url = toLocalAssetUrl(decorRaw[key])
+    if (url) decor[key] = url
+  }
 
-  return { name, description, sprites: { themes, islands } }
+  return { name, description, sprites: { themes, islands, decor } }
 }
 
 export function getIslandSprite(pack: LocalAssetPack | null, islandId: string, theme: IslandTheme): string | null {
   if (!pack) return null
   return pack.sprites.islands[islandId] ?? pack.sprites.themes[theme] ?? null
+}
+
+export function getLocalDecorSprite(pack: LocalAssetPack | null, key: LocalDecorKey): string | null {
+  if (!pack) return null
+  return pack.sprites.decor[key] ?? null
 }
 
 export async function loadLocalAssetPack(): Promise<LocalAssetPackState> {
@@ -69,7 +84,9 @@ export async function loadLocalAssetPack(): Promise<LocalAssetPackState> {
       return { status: 'missing', pack: null, message: '未检测到 public/local-assets/manifest.json' }
     }
     const pack = normalizeLocalAssetPack(JSON.parse(text))
-    const count = Object.keys(pack.sprites.islands).length + Object.keys(pack.sprites.themes).length
+    const count = Object.keys(pack.sprites.islands).length
+      + Object.keys(pack.sprites.themes).length
+      + Object.keys(pack.sprites.decor).length
     return { status: 'ready', pack, message: `已加载 ${pack.name} (${count} 个 sprite 映射)` }
   } catch (e) {
     return { status: 'error', pack: null, message: (e as Error).message }

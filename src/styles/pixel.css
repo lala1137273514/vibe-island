@@ -184,6 +184,18 @@ img{image-rendering:pixelated;}
 /* ====== 3D 大地图 ====== */
 .world3d-wrap{position:relative;isolation:isolate;}
 .stage3d-canvas{position:absolute !important;inset:0;z-index:1;image-rendering:auto;}
+.local-decor-layer{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;}
+.local-decor{position:absolute;image-rendering:pixelated;filter:drop-shadow(4px 4px 0 rgba(58,42,26,.45));}
+.local-decor.sky-day{top:76px;left:22px;width:92px;opacity:.82;}
+.local-decor.sky-night{top:92px;right:22px;width:92px;opacity:.76;}
+.local-decor.lantern{top:112px;right:138px;width:58px;animation:decor-glow 2.4s ease-in-out infinite;}
+.local-decor.tree{bottom:112px;left:24px;width:72px;}
+.local-decor.palm{bottom:122px;right:26px;width:68px;}
+.local-decor.mushroom{bottom:104px;left:116px;width:58px;}
+.local-decor.winter-tree{bottom:116px;right:114px;width:64px;}
+.local-decor-layer.island .sky-day,.local-decor-layer.island .sky-night{display:none;}
+@keyframes decor-glow{0%,100%{filter:drop-shadow(4px 4px 0 rgba(58,42,26,.45)) brightness(1)}
+  50%{filter:drop-shadow(4px 4px 0 rgba(58,42,26,.45)) brightness(1.24)}}
 .loading-note,.webgl-note{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);
   font-size:13px;z-index:5;}
 .island-3d-label{font-family:'Press Start 2P',system-ui,"Microsoft YaHei",sans-serif;
@@ -220,6 +232,12 @@ img{image-rendering:pixelated;}
   .map-coins{top:12px;right:12px;font-size:12px;}
   .island-dock{bottom:10px;padding:8px 10px;}
   .dock-btn{min-height:60px;}
+  .local-decor.sky-day{top:82px;left:8px;width:56px;}
+  .local-decor.sky-night{display:none;}
+  .local-decor.lantern{top:100px;right:12px;width:44px;}
+  .local-decor.tree{bottom:100px;left:8px;width:50px;}
+  .local-decor.palm{bottom:100px;right:8px;width:48px;}
+  .local-decor.mushroom,.local-decor.winter-tree{display:none;}
 }
 
 /* ====== 岛内 3D ====== */
