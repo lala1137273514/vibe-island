@@ -34,6 +34,7 @@ export async function generateIslandDef(brief: string, chatFn: ChatFn): Promise<
   } catch (e2) {
     throw new Error(
       `AI 两次生成都未通过校验,已停止。\n第一次:${firstError.message.slice(0, 200)}\n第二次:${(e2 as Error).message.slice(0, 200)}`,
+      { cause: e2 },
     )
   }
 }

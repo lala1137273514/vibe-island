@@ -26,7 +26,7 @@ function CloudLock() {
           <meshLambertMaterial color="#f4ecd6" transparent opacity={0.85} flatShading />
         </mesh>
       ))}
-      <Html center position={[0, 7.2, 0]} distanceFactor={30}>
+      <Html center position={[0, 7.2, 0]} distanceFactor={30} zIndexRange={[12, 0]}>
         <div className="island-3d-lock">🔒</div>
       </Html>
     </group>
@@ -59,7 +59,7 @@ export function WorldScene({ islands, onEnter, onLockedClick }: {
             onPointerOut={() => { setHovered(null); document.body.style.cursor = 'auto' }}
           >
             {isle.locked && <CloudLock />}
-            <Html center position={[0, -9, 0]} distanceFactor={36}>
+            <Html center position={[0, -9, 0]} distanceFactor={36} zIndexRange={[12, 0]}>
               <div className={`island-3d-label${isle.locked ? ' locked' : ''}`}>
                 {isle.kind === 'creator' ? '⚓ ' : isle.kind === 'custom' ? '🏝 ' : ''}{isle.name}
                 {isle.playable && !isle.locked && <span className="island-3d-play"> ▶</span>}

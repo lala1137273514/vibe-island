@@ -96,7 +96,7 @@ img,canvas{image-rendering:pixelated;}
 .progressbar>div{height:100%;background:var(--c-gold);transition:width .4s;}
 
 /* ====== 弹窗 ====== */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:30;
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:60;
   display:flex;align-items:center;justify-content:center;}
 .node-panel{width:min(560px,92vw);max-height:86vh;overflow:auto;}
 .node-panel h2{font-size:14px;margin:0 0 12px;}

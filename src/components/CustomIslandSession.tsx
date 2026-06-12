@@ -5,7 +5,7 @@ import { useGameState } from '../state/useGameState'
 import { Stage3D } from '../engine3d/lazyStage'
 import { NodePanel } from './NodePanel'
 import { NodeDrawer } from './NodeDrawer'
-import { PALETTES } from './IslandPreview'
+import { PALETTES } from './islandPalettes'
 import { PixelButton, PixelPanel } from '../ui'
 
 // 用户自建岛的独立游玩会话:进度走自己的存档,与起源岛全局进度互不影响

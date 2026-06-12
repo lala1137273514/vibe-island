@@ -64,7 +64,7 @@ export function NodeObject({ node, status, active, position, onOpen }: Props) {
           <meshLambertMaterial color="#f2c14e" transparent opacity={0.22} />
         </mesh>
       )}
-      <Html center position={[0, 2.8, 0]} distanceFactor={20}>
+      <Html center position={[0, 2.8, 0]} distanceFactor={20} zIndexRange={[12, 0]}>
         <div className={`node-3d-label ${status}${active ? ' active' : ''}`}>{icon} {node.title}</div>
       </Html>
     </group>

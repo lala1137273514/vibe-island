@@ -17,7 +17,7 @@ import { IslandDock, type DockItem } from './components/IslandDock'
 import { NodeDrawer } from './components/NodeDrawer'
 import { CreatorBay } from './components/CreatorBay'
 import { CustomIslandSession } from './components/CustomIslandSession'
-import { PALETTES } from './components/IslandPreview'
+import { PALETTES } from './components/islandPalettes'
 import { PixelToast, PixelPanel, PixelButton } from './ui'
 
 const ISLAND_LAYOUT: Record<string, { seed: number; position: [number, number, number]; topColor?: string }> = {
@@ -44,13 +44,18 @@ export default function App() {
   useEffect(() => {
     if (!justEarned.length) return
     const names = justEarned.map(id => ACHIEVEMENTS.find(a => a.id === id)?.name ?? id)
-    setToast(`🏆 解锁成就:${names.join('、')}`)
-    if (justEarned.includes('origin-master')) {
-      setActiveNode(null)
-      setCelebrating(true)
+    const show = window.setTimeout(() => {
+      setToast(`🏆 解锁成就:${names.join('、')}`)
+      if (justEarned.includes('origin-master')) {
+        setActiveNode(null)
+        setCelebrating(true)
+      }
+    }, 0)
+    const hide = window.setTimeout(() => setToast(null), 3500)
+    return () => {
+      window.clearTimeout(show)
+      window.clearTimeout(hide)
     }
-    const t = setTimeout(() => setToast(null), 3500)
-    return () => clearTimeout(t)
   }, [justEarned])
 
   const island = ISLANDS.find(i => i.id === islandId) ?? ORIGIN_ISLAND
